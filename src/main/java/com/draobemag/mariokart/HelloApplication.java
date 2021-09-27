@@ -1,6 +1,9 @@
 package com.draobemag.mariokart;
 
-import com.draobemag.mariokart.Singletons.SceneManager;
+import com.draobemag.mariokart.Enums.SceneType;
+import com.draobemag.mariokart.Singletons.GameManager;
+
+import com.draobemag.mariokart.Singletons.GameManager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -11,8 +14,9 @@ import java.io.IOException;
 public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        stage.setTitle("Hello!");
-        stage.setScene(SceneManager.LoadScene());
+        GameManager gameManager = GameManager.GameManager(stage);
+        gameManager.stage.setTitle("Hello!");
+        gameManager.stage.setScene(SceneType.LoadScene(SceneType.WELCOME));
         stage.show();
     }
 
