@@ -6,12 +6,12 @@
 
 <?import javafx.scene.control.Button?>
 <VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.draobemag.mariokart.HelloController">
+      fx:controller="com.draobemag.mariokart.Controllers.WelcomeController">
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
     </padding>
     <Label text="Welcome to MarioKart: The Copyright-Free Board Game"/>
     <Label text="Nintendo can't possibly hear about this one, right?" style="-fx-font-style: italic;"/>
-    <Label fx:id="welcomeText"/>
-    <Button text="Hello!" onAction="#onHelloButtonClick"/>
+    <Label fx:id="welcomeText" visible="false" text="No configuration for you!"/>
+    <Button text="Start Your Engines!" onAction="#onHelloButtonClick"/>
 </VBox>

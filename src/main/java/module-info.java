@@ -14,4 +14,6 @@ module com.draobemag.org.net.ch.mariokart {
     exports com.draobemag.mariokart;
     exports com.draobemag.mariokart.Singletons;
     opens com.draobemag.mariokart.Singletons to javafx.fxml;
+    exports com.draobemag.mariokart.Controllers;
+    opens com.draobemag.mariokart.Controllers to javafx.fxml;
 }

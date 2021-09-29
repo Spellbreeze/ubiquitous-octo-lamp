@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.draobemag.mariokart.Controllers.ConfigController">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+    </padding>
+    <HBox spacing="20.0">
+        <fx:define>
+            <ToggleGroup fx:id="group" />
+        </fx:define>
+        <Label text="Select number of drivers:"/>
+        <RadioButton text="1" toggleGroup="$group"/>
+        <RadioButton text="2" toggleGroup="$group"/>
+        <RadioButton text="3" toggleGroup="$group"/>
+        <RadioButton text="4" toggleGroup="$group"/>
+    </HBox>
+</VBox>

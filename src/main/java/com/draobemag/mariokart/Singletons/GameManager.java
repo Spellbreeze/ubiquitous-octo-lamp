@@ -1,21 +1,39 @@
 package com.draobemag.mariokart.Singletons;
 
+import javafx.stage.Stage;
+
 public class GameManager {
     private static GameManager instance = null;
 
     // Various game & player information
-    public String s;
+    public Stage stage;
 
-    private GameManager()
+    private GameManager(Stage stage)
     {
-        s = "Hello I am a string part of Singleton class";
+        this.stage = stage;
     }
 
-    public static GameManager GameManager()
+    public static GameManager GameManager(Stage stage)
     {
-        if (instance == null) {
-            instance = new GameManager();
+        if (instance == null)
+        {
+            instance = new GameManager(stage);
         }
         return instance;
+    }
+
+    //This method should be revised
+    // Temporary fix to allow GameManager to be called without
+    // giving it a stage.
+    public static GameManager GameManager()
+    {
+        if (instance != null)
+        {
+            return instance;
+        }
+        else
+        {
+            return null;
+        }
     }
 }
