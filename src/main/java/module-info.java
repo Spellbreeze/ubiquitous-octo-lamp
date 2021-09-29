@@ -9,6 +9,7 @@ module com.draobemag.org.net.ch.mariokart {
     requires org.kordamp.ikonli.javafx;
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
+    requires java.desktop;
 
     opens com.draobemag.mariokart to javafx.fxml;
     exports com.draobemag.mariokart;

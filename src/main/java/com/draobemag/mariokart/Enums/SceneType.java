@@ -26,7 +26,6 @@ public enum SceneType {
                 fxmlPath = "welcome-view.fxml";
                 break;
         }
-        System.out.println(HelloApplication.class.getResource(fxmlPath));
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource(fxmlPath));
         Scene scene = new Scene(fxmlLoader.load(), 420, 240);
         return scene;
