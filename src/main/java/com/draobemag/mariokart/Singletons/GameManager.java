@@ -8,9 +8,12 @@ public class GameManager {
     // Various game & player information
     public Stage stage;
 
+    public int numberOfPlayers;
+
     private GameManager(Stage stage)
     {
         this.stage = stage;
+        numberOfPlayers = 1;
     }
 
     public static GameManager GameManager(Stage stage)
@@ -35,5 +38,15 @@ public class GameManager {
         {
             return null;
         }
+    }
+
+    public static int GetNumPlayers()
+    {
+        return instance.numberOfPlayers;
+    }
+
+    public static void SetNumPlayers(int numberOfPlayers)
+    {
+        instance.numberOfPlayers = numberOfPlayers;
     }
 }

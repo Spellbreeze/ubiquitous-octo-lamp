@@ -1,5 +1,6 @@
 package com.draobemag.mariokart.Controllers;
 
+import com.draobemag.mariokart.Singletons.GameManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,9 +22,7 @@ public class PlayerConfigController {
 
 
     public void validateEntries(ActionEvent event) throws IOException {
-        FXMLLoader configLoaded = new FXMLLoader(getClass().getResource("/config-view.fxml"));
-        ConfigController config = configLoaded.getController();
-        numDrivers = config.getNumOfDrivers();
+        numDrivers = GameManager.GetNumPlayers();
 
         System.out.println(numDrivers);
     }

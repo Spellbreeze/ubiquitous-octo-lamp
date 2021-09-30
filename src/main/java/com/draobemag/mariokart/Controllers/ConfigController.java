@@ -30,14 +30,8 @@ public class ConfigController extends VBox {
         RadioButton toggleButton= (RadioButton) group.getSelectedToggle();
         String value = toggleButton.getText();
         numOfDrivers = Integer.parseInt(value);
-        setNumOfDrivers(numOfDrivers);
 
+        GameManager.SetNumPlayers(numOfDrivers);
         GameManager.GameManager().stage.setScene(SceneType.LoadScene(SceneType.PLAYER));
-    }
-    public int getNumOfDrivers() {
-        return numOfDrivers;
-    }
-    public void setNumOfDrivers(int nums) {
-        numOfDrivers = nums;
     }
 }
