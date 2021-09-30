@@ -22,5 +22,6 @@
         <RadioButton text="2" toggleGroup="$group"/>
         <RadioButton text="3" toggleGroup="$group"/>
         <RadioButton text="4" toggleGroup="$group"/>
+        <Button text="Ok!" onAction="#onGoButtonClick"/>
     </HBox>
 </VBox>

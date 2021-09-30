@@ -16,7 +16,7 @@ public class HelloApplication extends Application {
     public void start(Stage stage) throws IOException {
         GameManager gameManager = GameManager.GameManager(stage);
         gameManager.stage.setTitle("Hello!");
-        gameManager.stage.setScene(SceneType.LoadScene(SceneType.WELCOME));
+        gameManager.stage.setScene(SceneType.LoadScene(SceneType.MAIN));
         stage.show();
     }
 

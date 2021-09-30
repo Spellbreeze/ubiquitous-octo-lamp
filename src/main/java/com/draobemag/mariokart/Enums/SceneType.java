@@ -21,6 +21,9 @@ public enum SceneType {
             case CONFIG:
                 fxmlPath = "config-view.fxml";
                 break;
+            case MAIN:
+                fxmlPath = "gameboard-view.fxml";
+                break;
             default:
                 //should not be reached
                 fxmlPath = "welcome-view.fxml";
