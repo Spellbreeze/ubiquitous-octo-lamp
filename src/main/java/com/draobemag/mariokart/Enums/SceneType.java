@@ -9,6 +9,7 @@ import java.io.IOException;
 public enum SceneType {
     WELCOME,
     CONFIG,
+    PLAYER,
     MAIN;
 
     public static Scene LoadScene(SceneType sceneType) throws IOException {
@@ -20,6 +21,9 @@ public enum SceneType {
                 break;
             case CONFIG:
                 fxmlPath = "config-view.fxml";
+                break;
+            case PLAYER:
+                fxmlPath = "player-view.fxml";
                 break;
             default:
                 //should not be reached
