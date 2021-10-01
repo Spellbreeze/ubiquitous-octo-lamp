@@ -11,9 +11,8 @@
       fx:controller="com.draobemag.mariokart.Controllers.PlayerConfigController">
     <Label text="Driver Information" style="-fx-font-style: italic;"/>
     <Label fx:id="fName" text="First Name: "/>
-    <Label fx:id="lName" text="Last Name: "/>
     <TextField fx:id="firstName"/>
-    <TextField fx:id="lastName"/>
     <Button fx:id="nextOrGo" text="Next" onAction="#validateEntries"/>
+    <Button fx:id="start" text="start!" onAction="#gameInit" visible="false"/>
 </VBox>
 
