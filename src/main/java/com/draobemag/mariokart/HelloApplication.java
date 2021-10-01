@@ -16,7 +16,7 @@ import java.io.IOException;
 
 public class HelloApplication extends Application {
     @Override
-    public void start(Stage stage) throws IOException, MidiUnavailableException, InvalidMidiDataException {
+    public void start(Stage stage) throws IOException, MidiUnavailableException, InvalidMidiDataException, Exception {
         // This music doesn't seem modular enough
         MusicHandler musicHandler = MusicHandler.MusicHandler();
         musicHandler.setCurrentSong("mario-raceway.mid");

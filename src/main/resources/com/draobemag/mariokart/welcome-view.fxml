@@ -12,5 +12,5 @@
     </padding>
     <Label text="Welcome to MarioKart: The Copyright-Free Board Game"/>
     <Label text="Nintendo can't possibly hear about this one, right?" style="-fx-font-style: italic;"/>
-    <Button text="Start Your Engines!" onAction="#onHelloButtonClick"/>
+    <Button fx:id="initStart" text="Start Your Engines!" onAction="#onHelloButtonClick"/>
 </VBox>
