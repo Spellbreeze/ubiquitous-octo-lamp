@@ -46,6 +46,7 @@ public class PlayerConfigController {
                 }
             } while (!valid);
         } else {
+            firstName.clear();
             nextOrGo.setVisible(false);
             start.setVisible(true);
             nextOrGo.setVisible(false);
