@@ -25,6 +25,9 @@ public enum SceneType {
             case PLAYER:
                 fxmlPath = "player-view.fxml";
                 break;
+            case MAIN:
+                fxmlPath = "gameboard-view.fxml";
+                break;
             default:
                 //should not be reached
                 fxmlPath = "welcome-view.fxml";

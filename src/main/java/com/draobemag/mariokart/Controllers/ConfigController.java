@@ -2,6 +2,8 @@ package com.draobemag.mariokart.Controllers;
 
 import com.draobemag.mariokart.Enums.SceneType;
 import com.draobemag.mariokart.Singletons.GameManager;
+
+import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,8 +12,9 @@ import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 import java.security.PrivateKey;
-
-public class ConfigController extends VBox {
+    
+public class ConfigController
+    {
     @FXML
     private RadioButton toggle1;
     @FXML
@@ -26,7 +29,8 @@ public class ConfigController extends VBox {
     private int numOfDrivers;
 
     @FXML
-    protected void onPlayerConfigClick(ActionEvent event) throws IOException {
+    protected void onPlayerConfigClick(ActionEvent event) throws IOException
+    {
         RadioButton toggleButton= (RadioButton) group.getSelectedToggle();
         String value = toggleButton.getText();
         numOfDrivers = Integer.parseInt(value);

@@ -30,7 +30,8 @@ public class HelloApplication extends Application {
     }
 
     @Override
-    public void stop() throws MidiUnavailableException, InvalidMidiDataException, IOException {
+    public void stop() throws MidiUnavailableException, InvalidMidiDataException, IOException
+    {
         MusicHandler.MusicHandler().close();
     }
 
