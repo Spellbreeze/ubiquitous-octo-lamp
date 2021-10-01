@@ -10,8 +10,8 @@
 <VBox alignment="TOP_CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.draobemag.mariokart.Controllers.PlayerConfigController">
     <Label text="Driver Information" style="-fx-font-style: italic;"/>
-    <Label fx:id="fName" text="First Name: "/>
-    <TextField fx:id="firstName"/>
+    <Label fx:id="fName" text="Player Name: "/>
+    <TextField fx:id="playerName"/>
     <Button fx:id="nextOrGo" text="Next" onAction="#validateEntries"/>
     <Button fx:id="start" text="start!" onAction="#gameInit" visible="false"/>
 </VBox>

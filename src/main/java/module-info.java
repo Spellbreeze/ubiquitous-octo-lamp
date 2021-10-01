@@ -1,4 +1,4 @@
-module com.draobemag.org.net.ch.mariokart {
+module com.draobemag.mariokart {
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.web;

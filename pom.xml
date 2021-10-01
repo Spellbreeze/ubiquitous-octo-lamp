@@ -108,6 +108,18 @@
             <version>4.0.15-alpha</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.testfx</groupId>
+            <artifactId>testfx-core</artifactId>
+            <version>4.0.15-alpha</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testfx</groupId>
+            <artifactId>testfx-core</artifactId>
+            <version>4.0.15-alpha</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -131,8 +143,11 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
-                                com.draobemag.org.net.ch.mariokart/com.draobemag.mariokart.HelloApplication
+                                com.draobemag.mariokart/com.draobemag.mariokart.HelloApplication
                             </mainClass>
+                            <argLine>
+                                --add-exports javafx.graphics/com.sun.javafx.application=ALL-UNNAMED
+                            </argLine>
                         </configuration>
                     </execution>
                 </executions>

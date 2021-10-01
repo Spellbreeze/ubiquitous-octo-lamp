@@ -6,6 +6,8 @@ public class Player {
     int positionX;
     int positionY;
     Image sprite;
+    String name;
+    int money;
 
     public Player(Image sprite) {
         this.sprite = sprite;
@@ -37,5 +39,23 @@ public class Player {
         } else if (positionX > 0 && positionY == 0) {
             positionX -= 1;
         }
+    }
+
+    public String getName()
+    {
+        return name;
+    }
+    public void setName(String name)
+    {
+        this.name = name;
+    }
+
+    public int getMoney()
+    {
+        return money;
+    }
+    public void setMoney()
+    {
+        this.money = money;
     }
 }
