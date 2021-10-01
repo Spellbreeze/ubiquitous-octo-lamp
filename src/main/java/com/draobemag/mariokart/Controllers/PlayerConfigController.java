@@ -16,7 +16,7 @@ import java.util.*;
 
 public class PlayerConfigController {
     @FXML
-    private TextField firstName;
+    private TextField playerName;
     @FXML
     private Button nextOrGo;
     @FXML
@@ -33,35 +33,46 @@ public class PlayerConfigController {
 
     public void validateEntries(ActionEvent event) throws IOException {
         numDrivers = GameManager.GetNumPlayers();
-        if (names.size() < numDrivers) {
-            do {
-                valid = firstName.getText() != null && !firstName.getText().trim().isEmpty() && !firstName.getText().isEmpty();
-                //System.out.println(valid);
-                if (!valid) {
-                    //System.out.println("Name cannot be null nor have any white spaces in it. Please try again.");
+        System.out.printf("size: %d, numDrivers: %d", names.size(), numDrivers);
+        if (names.size() < numDrivers)
+        {
+            do
+            {
+                String name = playerName.getText();
+                valid = validateName(name);
+                if (!valid)
+                {
+                    // Invalid Name
                     Alert invalid = new Alert(Alert.AlertType.ERROR);
                     invalid.setHeaderText("ERROR");
                     invalid.setContentText("Name cannot be null nor be only white spaces. Please try again");
                     invalid.showAndWait();
                     break;
-                } else if (names.contains(firstName.getText())) {
-                    //System.out.println("Sorry! Username already exists. Please try again!");
+                }
+                else if (names.contains(playerName.getText()))
+                {
+                    // Repeat Name
                     Alert nameExists = new Alert(Alert.AlertType.ERROR);
                     nameExists.setHeaderText("ERROR");
                     nameExists.setContentText("Sorry! Username already exists. Please try again!");
                     nameExists.showAndWait();
                     break;
-                } else {
-                    names.add(firstName.getText());
-                    System.out.println("name added successfully");
-                    firstName.clear();
+                }
+                else
+                {
+                    // Legal Name
+                    names.add(playerName.getText());
+                    System.out.printf("name (\"%s\") added successfully\n",playerName.getText());
+                    playerName.clear();
                     break;
                 }
-            }while (!valid);
-        } else {
+            } while (!valid);
+        }
+        if (names.size() >= numDrivers)
+        {
             fName.setVisible(false);
-            firstName.setVisible(false);
-            firstName.clear();
+            playerName.setVisible(false);
+            playerName.clear();
             nextOrGo.setVisible(false);
             start.setVisible(true);
             nextOrGo.setVisible(false);
@@ -81,8 +92,16 @@ public class PlayerConfigController {
         //System.out.println(playerOrder);
         //System.out.println("start player is: " + startPlayer);
     }
+
+    public boolean validateName(String name)
+    {
+        return name != null  && !name.trim().isEmpty()
+                && !name.isEmpty();
+    }
+
+
     public TextField getTextField() {
-        return firstName;
+        return playerName;
     }
     public Button getNextOrGo() {
         return nextOrGo;

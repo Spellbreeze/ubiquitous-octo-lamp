@@ -14,27 +14,33 @@ public enum SceneType {
 
     public static Scene LoadScene(SceneType sceneType) throws IOException {
         String fxmlPath;
+        int width, height;
         switch(sceneType)
         {
             case WELCOME:
                 fxmlPath = "welcome-view.fxml";
+                width = 420; height = 240;
                 break;
             case CONFIG:
                 fxmlPath = "config-view.fxml";
+                width = 420; height = 240;
                 break;
             case PLAYER:
                 fxmlPath = "player-view.fxml";
+                width = 420; height = 240;
                 break;
             case MAIN:
                 fxmlPath = "gameboard-view.fxml";
+                width = 520; height = 640;
                 break;
             default:
                 //should not be reached
                 fxmlPath = "welcome-view.fxml";
+                width = 420; height = 240;
                 break;
         }
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource(fxmlPath));
-        Scene scene = new Scene(fxmlLoader.load(), 420, 240);
+        Scene scene = new Scene(fxmlLoader.load(), width, height);
         return scene;
     }
 }
