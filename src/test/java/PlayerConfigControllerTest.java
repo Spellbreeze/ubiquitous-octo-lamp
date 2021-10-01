@@ -26,34 +26,12 @@ class PlayerConfigControllerTest
         assertEquals(false, foo.validateName("\t   "));
     }
 
-    //Cursed TestFX tests
-    /*private GameManager gameManager;
-    @Start
-    public void start(Stage stage) throws IOException, Exception
-    {
-        gameManager = GameManager.GameManager(stage);
-        gameManager.stage.setScene(SceneType.LoadScene(SceneType.WELCOME));
-        gameManager.stage.show();
-        gameManager.stage.toFront();
+    //Does not work yet due to using .class.getResource() for loading fxml files
+    @Test
+    void testFXMLLocations() throws IOException {
+        for (SceneType sceneType : SceneType.values())
+        {
+            assertNotNull(SceneType.LoadScene(sceneType));
+        }
     }
-
-    @BeforeEach
-    void setUp() throws IOException {
-    }*/
-    /*@Test
-    void validateTestFX() throws IOException {
-        FxAssert.verifyThat("#initStart", LabeledMatchers.hasText("Start Your Engines!"));
-    }*/
-
-    /*@Test
-    void validateEntries() throws IOException {
-        clickOn("#initStart");
-        clickOn("#toggle1");
-        clickOn("#playerConfig");
-        clickOn("#firstName");
-        write("    ");
-        //assertEquals();
-        //clickOn(test);
-
-    }*/
 }
