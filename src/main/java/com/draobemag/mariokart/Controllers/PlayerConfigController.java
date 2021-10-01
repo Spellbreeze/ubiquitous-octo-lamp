@@ -8,6 +8,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
+import org.w3c.dom.Text;
+
 import java.lang.Math;
 import java.io.IOException;
 import java.util.*;
@@ -36,14 +38,14 @@ public class PlayerConfigController {
                 valid = firstName.getText() != null && !firstName.getText().trim().isEmpty() && !firstName.getText().isEmpty();
                 //System.out.println(valid);
                 if (!valid) {
-                    System.out.println("Name cannot be null nor have any white spaces in it. Please try again.");
+                    //System.out.println("Name cannot be null nor have any white spaces in it. Please try again.");
                     Alert invalid = new Alert(Alert.AlertType.ERROR);
                     invalid.setHeaderText("ERROR");
                     invalid.setContentText("Name cannot be null nor be only white spaces. Please try again");
                     invalid.showAndWait();
                     break;
                 } else if (names.contains(firstName.getText())) {
-                    System.out.println("Sorry! Username already exists. Please try again!");
+                    //System.out.println("Sorry! Username already exists. Please try again!");
                     Alert nameExists = new Alert(Alert.AlertType.ERROR);
                     nameExists.setHeaderText("ERROR");
                     nameExists.setContentText("Sorry! Username already exists. Please try again!");
@@ -78,5 +80,11 @@ public class PlayerConfigController {
         GameManager.GameManager().stage.setScene(SceneType.LoadScene(SceneType.MAIN));
         //System.out.println(playerOrder);
         //System.out.println("start player is: " + startPlayer);
+    }
+    public TextField getTextField() {
+        return firstName;
+    }
+    public Button getNextOrGo() {
+        return nextOrGo;
     }
 }
