@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.text.Text?>
+<VBox alignment="TOP_CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.draobemag.mariokart.Controllers.PlayerConfigController">
+    <Label text="Driver Information" style="-fx-font-style: italic;"/>
+    <Label fx:id="fName" text="First Name: "/>
+    <TextField fx:id="firstName"/>
+    <Button fx:id="nextOrGo" text="Next" onAction="#validateEntries"/>
+    <Button fx:id="start" text="start!" onAction="#gameInit" visible="false"/>
+</VBox>
+

@@ -2,15 +2,40 @@ package com.draobemag.mariokart.Controllers;
 
 import com.draobemag.mariokart.Enums.SceneType;
 import com.draobemag.mariokart.Singletons.GameManager;
+
 import javafx.fxml.FXML;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
 
 import java.io.IOException;
+import java.security.PrivateKey;
+    
+public class ConfigController
+    {
+    @FXML
+    private RadioButton toggle1;
+    @FXML
+    private RadioButton toggle2;
+    @FXML
+    private RadioButton toggle3;
+    @FXML
+    private RadioButton toggle4;
+    @FXML
+    private ToggleGroup group;
 
-public class ConfigController {
+    private int numOfDrivers;
 
     @FXML
-    public void onGoButtonClick() throws IOException {
-        GameManager.GameManager().stage
-                .setScene(SceneType.LoadScene(SceneType.MAIN));
+    protected void onPlayerConfigClick(ActionEvent event) throws IOException
+    {
+        RadioButton toggleButton= (RadioButton) group.getSelectedToggle();
+        String value = toggleButton.getText();
+        numOfDrivers = Integer.parseInt(value);
+
+        GameManager.SetNumPlayers(numOfDrivers);
+        GameManager.GameManager().stage.setScene(SceneType.LoadScene(SceneType.PLAYER));
     }
 }

@@ -9,6 +9,7 @@ import java.io.IOException;
 public enum SceneType {
     WELCOME,
     CONFIG,
+    PLAYER,
     MAIN;
 
     public static Scene LoadScene(SceneType sceneType) throws IOException {
@@ -21,6 +22,9 @@ public enum SceneType {
             case CONFIG:
                 fxmlPath = "config-view.fxml";
                 break;
+            case PLAYER:
+                fxmlPath = "player-view.fxml";
+                break;
             case MAIN:
                 fxmlPath = "gameboard-view.fxml";
                 break;
@@ -29,7 +33,6 @@ public enum SceneType {
                 fxmlPath = "welcome-view.fxml";
                 break;
         }
-        System.out.println(HelloApplication.class.getResource(fxmlPath));
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource(fxmlPath));
         Scene scene = new Scene(fxmlLoader.load(), 420, 240);
         return scene;
