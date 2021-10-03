@@ -2,6 +2,8 @@ package com.draobemag.mariokart.Singletons;
 
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+
 public class GameManager {
     private static GameManager instance = null;
 
@@ -9,6 +11,8 @@ public class GameManager {
     public Stage stage;
 
     public int numberOfPlayers;
+    public ArrayList<Integer> sprites;
+    public int startNum;
 
     private GameManager(Stage stage)
     {
@@ -23,6 +27,25 @@ public class GameManager {
             instance = new GameManager(stage);
         }
         return instance;
+    }
+
+    public static void setPlayerConfig(int numPlayers, ArrayList<Integer> sprites, int start)
+    {
+        instance.numberOfPlayers = numPlayers;
+        instance.sprites = sprites;
+        instance.startNum = start;
+    }
+
+    public static int getNumPlayers() {
+        return instance.numberOfPlayers;
+    }
+
+    public static ArrayList<Integer> getSpritesList() {
+        return instance.sprites;
+    }
+
+    public static int getStartPoint() {
+        return instance.startNum;
     }
 
     //This method should be revised

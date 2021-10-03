@@ -2,8 +2,12 @@ package com.draobemag.mariokart.Controllers;
 
 
 import com.draobemag.mariokart.Classes.Player;
+import com.draobemag.mariokart.GlobalDefine;
+import com.draobemag.mariokart.Singletons.GameManager;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -14,6 +18,9 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
+import java.awt.*;
+import java.awt.event.ActionListener;
+import java.beans.EventHandler;
 import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,13 +33,30 @@ public class GameBoardView {
     @FXML
     private GridPane gameBoard;
 
+    private ArrayList<Player> players;
+
     @FXML
-    private Player player1;
+    private javafx.scene.control.Button moveButton;
+
+    @FXML
+    private javafx.scene.control.Button moveButton3;
+
+    private Player currPlayer;
 
     public void initialize() {
         gameBoard.setPrefSize(755, 755);
 
-        player1 = new Player(new Image("file:src/main/resources/images/mario_sprite.png", 40, 40, false, false));
+        this.players = new ArrayList<Player>();
+        for (int i = 0; i < GameManager.getNumPlayers(); i++) {
+            this.players.add(new Player(new Image(GlobalDefine.sprites.get(GameManager.getSpritesList().get(i) - 1), 40, 40, false, false)));
+        }
+
+        this.currPlayer = this.players.get(GameManager.getStartPoint() - 1);
+
+        moveButton.setOnAction(event -> {moveSprite(this.currPlayer);});
+
+        moveButton3.setOnAction(event -> {moveSprite3(this.currPlayer);});
+
         int count = 0;
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
@@ -43,7 +67,7 @@ public class GameBoardView {
 
                     Text text = new Text(String.format(i + "," + j));
                     if (i == 0 && j == 0) {
-                        tile.setFill(new ImagePattern(player1.getSprite()));
+                        tile.setFill(new ImagePattern(this.currPlayer.getSprite()));
                     }
                     text.setFont(Font.font(10));
                     gameBoard.add(new StackPane(tile, text), i, j);
@@ -58,18 +82,18 @@ public class GameBoardView {
         System.out.println(gameBoard.getChildren());
     }
 
-    public void moveSprite() {
-        Rectangle temp = this.getTile(player1);
+    public void moveSprite(Player player) {
+        Rectangle temp = this.getTile(player);
         temp.setFill(Color.BURLYWOOD);
-        player1.move();
-        temp = this.getTile(player1);
-        temp.setFill(new ImagePattern(player1.getSprite()));
+        player.move();
+        temp = this.getTile(player);
+        temp.setFill(new ImagePattern(player.getSprite()));
         System.out.println(temp.getFill());
     }
 
-    public void moveSprite3() {
+    public void moveSprite3(Player player) {
         for (int i = 0; i < 3; i++) {
-            this.moveSprite();
+            this.moveSprite(player);
         }
     }
 

@@ -16,7 +16,10 @@
     </padding>
     <GridPane fx:id="gameBoard" alignment="CENTER">
         <ImageView fx:id="player1_sprite"></ImageView>
+        <ImageView fx:id="player2_sprite"></ImageView>
+        <ImageView fx:id="player3_sprite"></ImageView>
+        <ImageView fx:id="player4_sprite"></ImageView>
     </GridPane>
-    <Button text="Move 1" onAction="#moveSprite"/>
-    <Button text="Move 3" onAction="#moveSprite3"/>
+    <Button fx:id="moveButton" text="Move 1"/>
+    <Button fx:id="moveButton3" text="Move 3"/>
 </VBox>

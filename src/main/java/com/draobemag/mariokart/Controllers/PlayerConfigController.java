@@ -7,12 +7,15 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import org.w3c.dom.Text;
 
 import java.lang.Math;
 import java.io.IOException;
 import java.util.*;
+import com.draobemag.mariokart.GlobalDefine;
 
 public class PlayerConfigController {
     @FXML
@@ -23,11 +26,17 @@ public class PlayerConfigController {
     private Button start;
     @FXML
     private Label fName;
+    @FXML
+    private Label fSprite;
+
+    @FXML
+    private ToggleGroup group;
 
     public int numDrivers;
     public boolean valid = false;
     public String name;
     List<String> names = new ArrayList<String>();
+    ArrayList<Integer> characters = new ArrayList<>();
     List<Integer> playerOrder;
     public int startPlayer;
 
@@ -58,10 +67,20 @@ public class PlayerConfigController {
                     nameExists.showAndWait();
                     break;
                 }
+                else if (group.getToggles().size() < 1)
+                {
+                    // Unselected Sprite
+                    Alert nameExists = new Alert(Alert.AlertType.ERROR);
+                    nameExists.setHeaderText("ERROR");
+                    nameExists.setContentText("Please pick a character!");
+                    nameExists.showAndWait();
+                    break;
+                }
                 else
                 {
                     // Legal Name
                     names.add(playerName.getText());
+                    characters.add(Integer.parseInt(((RadioButton) group.getSelectedToggle()).getId()));
                     System.out.printf("name (\"%s\") added successfully\n",playerName.getText());
                     playerName.clear();
                     break;
@@ -71,6 +90,7 @@ public class PlayerConfigController {
         if (names.size() >= numDrivers)
         {
             fName.setVisible(false);
+            fSprite.setVisible(false);
             playerName.setVisible(false);
             playerName.clear();
             nextOrGo.setVisible(false);
@@ -87,7 +107,9 @@ public class PlayerConfigController {
             playOrder.add(rand.nextInt(numDrivers) + 1);
         }
         playerOrder = new ArrayList<Integer>(playOrder);
-        startPlayer = playerOrder.get(0);
+        GameManager.setPlayerConfig(numDrivers, characters, playerOrder.get(0));
+
+
         GameManager.GameManager().stage.setScene(SceneType.LoadScene(SceneType.MAIN));
         //System.out.println(playerOrder);
         //System.out.println("start player is: " + startPlayer);
@@ -98,7 +120,6 @@ public class PlayerConfigController {
         return name != null  && !name.trim().isEmpty()
                 && !name.isEmpty();
     }
-
 
     public TextField getTextField() {
         return playerName;

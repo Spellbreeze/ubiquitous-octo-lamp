@@ -27,7 +27,7 @@ public enum SceneType {
                 break;
             case PLAYER:
                 fxmlPath = "player-view.fxml";
-                width = 420; height = 240;
+                width = 420; height = 440;
                 break;
             case MAIN:
                 fxmlPath = "gameboard-view.fxml";
