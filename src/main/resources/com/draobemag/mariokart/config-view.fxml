@@ -23,6 +23,5 @@
         <RadioButton fx:id="toggle3" text="3" toggleGroup="$group"/>
         <RadioButton fx:id="toggle4" text="4" toggleGroup="$group"/>
     </HBox>
-
     <Button fx:id = "playerConfig" text = "Go!" onAction="#onPlayerConfigClick"/>
 </VBox>
