@@ -18,10 +18,19 @@
             <ToggleGroup fx:id="group" />
         </fx:define>
         <Label text="Select number of drivers:"/>
-        <RadioButton fx:id="toggle1" text="1" toggleGroup="$group"/>
         <RadioButton fx:id="toggle2" text="2" toggleGroup="$group"/>
         <RadioButton fx:id="toggle3" text="3" toggleGroup="$group"/>
         <RadioButton fx:id="toggle4" text="4" toggleGroup="$group"/>
+    </HBox>
+
+    <HBox spacing="20.0">
+        <fx:define>
+            <ToggleGroup fx:id="speedGroup" />
+        </fx:define>
+        <Label text="Starting Speed:"/>
+        <RadioButton fx:id="speedToggle1" text="50cc" toggleGroup="$speedGroup"/>
+        <RadioButton fx:id="speedToggle2" text="100cc" toggleGroup="$speedGroup"/>
+        <RadioButton fx:id="speedToggle3" text="150cc" toggleGroup="$speedGroup"/>
     </HBox>
     <Button fx:id = "playerConfig" text = "Go!" onAction="#onPlayerConfigClick"/>
 </VBox>

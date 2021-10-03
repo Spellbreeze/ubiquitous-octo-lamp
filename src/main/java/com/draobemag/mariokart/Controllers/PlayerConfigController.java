@@ -1,5 +1,6 @@
 package com.draobemag.mariokart.Controllers;
 
+import com.draobemag.mariokart.Classes.Player;
 import com.draobemag.mariokart.Enums.SceneType;
 import com.draobemag.mariokart.Singletons.GameManager;
 import javafx.event.ActionEvent;
@@ -30,6 +31,15 @@ public class PlayerConfigController {
     private Label fSprite;
 
     @FXML
+    private RadioButton sprite1;
+    @FXML
+    private RadioButton sprite2;
+    @FXML
+    private RadioButton sprite3;
+    @FXML
+    private RadioButton sprite4;
+
+    @FXML
     private ToggleGroup group;
 
     public int numDrivers;
@@ -42,6 +52,7 @@ public class PlayerConfigController {
 
     public void validateEntries(ActionEvent event) throws IOException {
         numDrivers = GameManager.GetNumPlayers();
+        int startingMoney = GameManager.GetStartingMoney();
         System.out.printf("size: %d, numDrivers: %d", names.size(), numDrivers);
         if (names.size() < numDrivers)
         {
@@ -80,7 +91,11 @@ public class PlayerConfigController {
                 {
                     // Legal Name
                     names.add(playerName.getText());
-                    characters.add(Integer.parseInt(((RadioButton) group.getSelectedToggle()).getId()));
+                    characters.add(Integer.parseInt(((RadioButton)
+                            group.getSelectedToggle()).getId().
+                            replaceAll("[\\D]", "")));
+                    GameManager.GameManager().playerList.add(
+                            new Player(playerName.getText(),startingMoney));
                     System.out.printf("name (\"%s\") added successfully\n",playerName.getText());
                     playerName.clear();
                     break;
@@ -94,6 +109,10 @@ public class PlayerConfigController {
             playerName.setVisible(false);
             playerName.clear();
             nextOrGo.setVisible(false);
+            sprite1.setVisible(false);
+            sprite2.setVisible(false);
+            sprite3.setVisible(false);
+            sprite4.setVisible(false);
             start.setVisible(true);
             nextOrGo.setVisible(false);
         }

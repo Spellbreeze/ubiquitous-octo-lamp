@@ -1,3 +1,5 @@
+package com.draobemag.mariokart;
+
 import com.draobemag.mariokart.HelloApplication;
 
 

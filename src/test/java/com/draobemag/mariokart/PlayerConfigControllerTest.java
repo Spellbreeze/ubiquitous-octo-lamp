@@ -1,3 +1,5 @@
+package com.draobemag.mariokart;
+
 import com.draobemag.mariokart.Controllers.PlayerConfigController;
 import com.draobemag.mariokart.Enums.SceneType;
 import com.draobemag.mariokart.Singletons.GameManager;

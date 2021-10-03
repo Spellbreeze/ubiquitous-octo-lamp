@@ -15,6 +15,14 @@ public class Player {
         positionY = 0;
     }
 
+    public Player(String name, int money) {
+        this.sprite = new Image(
+                "file:src/main/resources/images/mario_sprite.png",
+                40, 40, false, false);
+        positionX = 0;
+        positionY = 0;
+    }
+
     public Image getSprite() {
         return this.sprite;
     }

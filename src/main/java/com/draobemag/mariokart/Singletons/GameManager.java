@@ -1,18 +1,22 @@
 package com.draobemag.mariokart.Singletons;
 
+import com.draobemag.mariokart.Classes.Player;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class GameManager {
     private static GameManager instance = null;
 
+
     // Various game & player information
     public Stage stage;
-
+    public List<Player> playerList;
     public int numberOfPlayers;
     public ArrayList<Integer> sprites;
     public int startNum;
+    public int startingMoney;
 
     private GameManager(Stage stage)
     {
@@ -25,6 +29,7 @@ public class GameManager {
         if (instance == null)
         {
             instance = new GameManager(stage);
+            instance.playerList = new ArrayList<>();
         }
         return instance;
     }
@@ -71,5 +76,15 @@ public class GameManager {
     public static void SetNumPlayers(int numberOfPlayers)
     {
         instance.numberOfPlayers = numberOfPlayers;
+    }
+
+    public static int GetStartingMoney()
+    {
+        return instance.startingMoney;
+    }
+
+    public static void SetStartingMoney(int startingMoney)
+    {
+        instance.startingMoney = startingMoney;
     }
 }

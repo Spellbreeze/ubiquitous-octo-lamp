@@ -19,10 +19,10 @@
     <fx:define>
         <ToggleGroup fx:id="group" />
     </fx:define>
-    <RadioButton fx:id="1" text="Mario" toggleGroup="$group"/>
-    <RadioButton fx:id="2" text="Luigi" toggleGroup="$group"/>
-    <RadioButton fx:id="3" text="Bowser" toggleGroup="$group"/>
-    <RadioButton fx:id="4" text="Peach" toggleGroup="$group"/>
+    <RadioButton fx:id="sprite1" text="Mario" toggleGroup="$group"/>
+    <RadioButton fx:id="sprite2" text="Luigi" toggleGroup="$group"/>
+    <RadioButton fx:id="sprite3" text="Bowser" toggleGroup="$group"/>
+    <RadioButton fx:id="sprite4" text="Peach" toggleGroup="$group"/>
     <Button fx:id="nextOrGo" text="Next" onAction="#validateEntries"/>
     <Button fx:id="start" text="start!" onAction="#gameInit" visible="false"/>
 </VBox>
