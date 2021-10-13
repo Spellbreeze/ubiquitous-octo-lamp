@@ -1,52 +1,64 @@
 package com.draobemag.mariokart.Classes;
 
+import com.draobemag.mariokart.GlobalDefine;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 
+import java.util.Random;
+
 public class Player {
-    int positionX;
-    int positionY;
+    int position;
     Image sprite;
     String name;
     int money;
+    private javafx.scene.control.Label player_label;
 
-    public Player(Image sprite) {
+    public Player(Image sprite, int money, String name) {
         this.sprite = sprite;
-        positionX = 0;
-        positionY = 0;
-    }
-
-    public Player(String name, int money) {
-        this.sprite = new Image(
-                "file:src/main/resources/images/mario_sprite.png",
-                40, 40, false, false);
-        positionX = 0;
-        positionY = 0;
+        position = 0;
+        this.player_label = new javafx.scene.control.Label(this.name + ": " + String.valueOf(this.money));
+        this.money = money;
+        this.name = name;
     }
 
     public Image getSprite() {
         return this.sprite;
     }
 
-    public int getX() {
-        return this.positionX;
-    }
-
-    public int getY() {
-        return this.positionY;
+    public int getPosition() {
+        return this.position;
     }
 
     public void move() {
-        if (positionX == 0 && positionY == 0) {
-            positionY += 1;
-        } else if (positionY < 9 && positionX == 0) {
-            positionY += 1;
-        } else if (positionY == 9 && positionX < 9) {
-            positionX += 1;
-        } else if (positionX == 9 && positionY > 0) {
-            positionY -= 1;
-        } else if (positionX > 0 && positionY == 0) {
-            positionX -= 1;
+        if (position == GlobalDefine.coords.length - 1) {
+            position = 0;
+        } else {
+            position += 1;
         }
+    }
+
+    public void updateMoney() {
+        if (position % 12 == 0) {
+            Random rand = new Random();
+            int val = rand.nextInt(30);
+            if (val % 2 == 0) {
+                this.money -= val;
+            } else {
+                this.money += val;
+            }
+        } else if (position % 2 == 0) {
+            this.money -= 5;
+        } else {
+            this.money += 5;
+        }
+    }
+
+    public void updateLabel() {
+        this.player_label.setText(this.name + ": " + String.valueOf(this.money));
+    }
+
+    public javafx.scene.control.Label getLabel() {
+        return this.player_label;
     }
 
     public String getName()
