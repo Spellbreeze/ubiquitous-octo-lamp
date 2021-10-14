@@ -7,6 +7,7 @@ import com.draobemag.mariokart.Singletons.GameManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -24,6 +25,7 @@ import java.beans.EventHandler;
 import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -38,9 +40,6 @@ public class GameBoardView {
     @FXML
     private javafx.scene.control.Button moveButton;
 
-    @FXML
-    private javafx.scene.control.Button moveButton3;
-
     private Player currPlayer;
 
     public void initialize() {
@@ -53,9 +52,7 @@ public class GameBoardView {
 
         this.currPlayer = this.players.get(GameManager.getStartPoint() - 1);
 
-        moveButton.setOnAction(event -> {moveSprite(this.currPlayer);});
-
-        moveButton3.setOnAction(event -> {moveSprite3(this.currPlayer);});
+        moveButton.setOnAction(event -> {moveSpriteRandomNumTiles(this.currPlayer);});
 
         int count = 0;
         for (int i = 0; i < 10; i++) {
@@ -88,13 +85,28 @@ public class GameBoardView {
         player.move();
         temp = this.getTile(player);
         temp.setFill(new ImagePattern(player.getSprite()));
-        System.out.println(temp.getFill());
     }
 
-    public void moveSprite3(Player player) {
-        for (int i = 0; i < 3; i++) {
+    public void moveSpriteNumTiles(Player player, int num_tiles) {
+        for (int i = 0; i < num_tiles; i++) {
             this.moveSprite(player);
         }
+    }
+
+    // TODO: Consider moving the 'random' logic to a separate utility class
+    public void moveSpriteRandomNumTiles(Player player) {
+
+        int MIN_MOVE = 1;
+        int MAX_MOVE = 6;
+        Random rand = new Random();
+        int random_num_tiles_to_move = rand.nextInt(MAX_MOVE-MIN_MOVE + 1) + MIN_MOVE;
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText("Dice Roll");
+        alert.setContentText(String.format("You rolled a %d!", random_num_tiles_to_move));
+        alert.showAndWait();
+
+        moveSpriteNumTiles(player, random_num_tiles_to_move);
     }
 
     Rectangle getTile(Player player) {

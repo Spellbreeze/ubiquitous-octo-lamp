@@ -20,6 +20,5 @@
         <ImageView fx:id="player3_sprite"></ImageView>
         <ImageView fx:id="player4_sprite"></ImageView>
     </GridPane>
-    <Button fx:id="moveButton" text="Move 1"/>
-    <Button fx:id="moveButton3" text="Move 3"/>
+    <Button fx:id="moveButton" text="Roll the dice!"/>
 </VBox>
