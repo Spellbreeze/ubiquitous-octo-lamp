@@ -12,7 +12,7 @@ public class GameManager {
 
     // Various game & player information
     public Stage stage;
-    public List<Player> playerList;
+    public ArrayList<Player> playerList;
     public int numberOfPlayers;
     public ArrayList<Integer> sprites;
     public int startNum;
@@ -34,24 +34,15 @@ public class GameManager {
         return instance;
     }
 
-    public static void setPlayerConfig(int numPlayers, ArrayList<Integer> sprites, int start)
-    {
-        instance.numberOfPlayers = numPlayers;
-        instance.sprites = sprites;
-        instance.startNum = start;
-    }
-
-    public static int getNumPlayers() {
-        return instance.numberOfPlayers;
-    }
-
-    public static ArrayList<Integer> getSpritesList() {
-        return instance.sprites;
+    public static ArrayList<Player> getPlayerList() {
+        return instance.playerList;
     }
 
     public static int getStartPoint() {
         return instance.startNum;
     }
+
+    public static void setStartPoint(int start) {instance.startNum = start;}
 
     //This method should be revised
     // Temporary fix to allow GameManager to be called without

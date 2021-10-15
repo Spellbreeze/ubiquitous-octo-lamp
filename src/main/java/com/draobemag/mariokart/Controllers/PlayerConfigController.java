@@ -91,11 +91,11 @@ public class PlayerConfigController {
                 {
                     // Legal Name
                     names.add(playerName.getText());
-                    characters.add(Integer.parseInt(((RadioButton)
+                    int sprite_ind = Integer.parseInt(((RadioButton)
                             group.getSelectedToggle()).getId().
-                            replaceAll("[\\D]", "")));
+                            replaceAll("[\\D]", ""));
                     GameManager.GameManager().playerList.add(
-                            new Player(playerName.getText(),startingMoney));
+                            new Player(new Image(GlobalDefine.sprites.get(sprite_ind - 1), 40, 40, false, false),startingMoney, playerName.getText()));
                     System.out.printf("name (\"%s\") added successfully\n",playerName.getText());
                     playerName.clear();
                     break;
@@ -126,7 +126,7 @@ public class PlayerConfigController {
             playOrder.add(rand.nextInt(numDrivers) + 1);
         }
         playerOrder = new ArrayList<Integer>(playOrder);
-        GameManager.setPlayerConfig(numDrivers, characters, playerOrder.get(0));
+        GameManager.setStartPoint(playerOrder.get(0));
 
 
         GameManager.GameManager().stage.setScene(SceneType.LoadScene(SceneType.MAIN));

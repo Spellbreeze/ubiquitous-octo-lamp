@@ -4,15 +4,16 @@ package com.draobemag.mariokart.Controllers;
 import com.draobemag.mariokart.Classes.Player;
 import com.draobemag.mariokart.GlobalDefine;
 import com.draobemag.mariokart.Singletons.GameManager;
+import eu.hansolo.tilesfx.Tile;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
@@ -24,6 +25,7 @@ import java.awt.event.ActionListener;
 import java.beans.EventHandler;
 import java.io.FileInputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.function.Predicate;
@@ -35,6 +37,9 @@ public class GameBoardView {
     @FXML
     private GridPane gameBoard;
 
+    @FXML
+    private HBox layout;
+
     private ArrayList<Player> players;
 
     @FXML
@@ -42,33 +47,42 @@ public class GameBoardView {
 
     private Player currPlayer;
 
+    private int currInd;
+
     public void initialize() {
         gameBoard.setPrefSize(755, 755);
-
         this.players = new ArrayList<Player>();
-        for (int i = 0; i < GameManager.getNumPlayers(); i++) {
-            this.players.add(new Player(new Image(GlobalDefine.sprites.get(GameManager.getSpritesList().get(i) - 1), 40, 40, false, false)));
+        HBox temp = new HBox();
+        layout.getChildren().add(temp);
+        this.players = GameManager.getPlayerList();
+        for (int i = 0; i < this.players.size(); i++) {
+            temp.getChildren().add(this.players.get(i).getLabel());
+            this.players.get(i).updateLabel();
+            this.players.get(i).updateMoney();
         }
-
+      
+        this.currInd = GameManager.getStartPoint() - 1;
+        this.currPlayer = this.players.get(this.currInd);
         this.currPlayer = this.players.get(GameManager.getStartPoint() - 1);
 
         moveButton.setOnAction(event -> {moveSpriteRandomNumTiles(this.currPlayer);});
 
         int count = 0;
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 10; j++) {
-                if (i == 0 || j == 0 || i == 9 || j == 9) {
+        for (int i = 0; i < GlobalDefine.boardMaxL + 1; i++) {
+            for (int j = 0; j < GlobalDefine.boardMaxL + 1; j++) {
+                if (Arrays.asList(GlobalDefine.coords).contains(new Point(j,i))) {
                     Rectangle tile = new Rectangle(i, j, 50, 50);
-                    tile.setFill(Color.BURLYWOOD);
+                    if (count % 12 == 0) {
+                        tile.setFill(Color.ORANGE);
+                    } else if (count % 2 == 0 && count != 0) {
+                        tile.setFill(Color.PALEVIOLETRED);
+                    } else {
+                        tile.setFill(Color.GREENYELLOW);
+                    }
                     tile.setStroke(Color.BLACK);
-
-                    Text text = new Text(String.format(i + "," + j));
-                    if (i == 0 && j == 0) {
+                    if (i == 1 && j == 1) {
                         tile.setFill(new ImagePattern(this.currPlayer.getSprite()));
                     }
-                    text.setFont(Font.font(10));
-                    gameBoard.add(new StackPane(tile, text), i, j);
-
                     GridPane.setRowIndex(tile, i);
                     GridPane.setColumnIndex(tile, j);
                     gameBoard.getChildren().add(count, tile);
@@ -76,14 +90,34 @@ public class GameBoardView {
                 }
             }
         }
-        System.out.println(gameBoard.getChildren());
+
+        for (int i = 0; i < GlobalDefine.boardMaxL + 1; i++) {
+            for (int j = 0; j < GlobalDefine.boardMaxL + 1; j++) {
+                if (!Arrays.asList(GlobalDefine.coords).contains(new Point(j,i))) {
+                    Rectangle tile = new Rectangle(i, j, 50, 50);
+                    tile.setFill(Color.FORESTGREEN);
+                    tile.setStroke(Color.GRAY);
+                    tile.setFill(new ImagePattern(new Image("file:src/main/resources/images/grass.png")));
+                    GridPane.setRowIndex(tile, i);
+                    GridPane.setColumnIndex(tile, j);
+                    gameBoard.getChildren().add(count, tile);
+                    count += 1;
+                }
+            }
+        }
     }
 
     public void moveSprite(Player player) {
-        Rectangle temp = this.getTile(player);
-        temp.setFill(Color.BURLYWOOD);
+        Rectangle temp = this.getTile(GlobalDefine.coords[player.getPosition()].y,GlobalDefine.coords[player.getPosition()].x);
+        if (player.getPosition() % 12 == 0) {
+            temp.setFill(Color.ORANGE);
+        } else if (player.getPosition() % 2 == 0) {
+            temp.setFill(Color.PALEVIOLETRED);
+        } else {
+            temp.setFill(Color.GREENYELLOW);
+        }
         player.move();
-        temp = this.getTile(player);
+        temp = this.getTile(GlobalDefine.coords[player.getPosition()].y,GlobalDefine.coords[player.getPosition()].x);
         temp.setFill(new ImagePattern(player.getSprite()));
     }
 
@@ -91,7 +125,17 @@ public class GameBoardView {
         for (int i = 0; i < num_tiles; i++) {
             this.moveSprite(player);
         }
+        this.currPlayer.updateMoney();
+        this.currPlayer.updateLabel();
+        if (this.currInd == this.players.size() - 1) {
+            this.currInd = 0;
+            this.currPlayer = this.players.get(this.currInd);
+        } else {
+            this.currInd += 1;
+            this.currPlayer = this.players.get(this.currInd);
+        }
     }
+
 
     // TODO: Consider moving the 'random' logic to a separate utility class
     public void moveSpriteRandomNumTiles(Player player) {
@@ -108,15 +152,15 @@ public class GameBoardView {
 
         moveSpriteNumTiles(player, random_num_tiles_to_move);
     }
-
-    Rectangle getTile(Player player) {
-        List<Node> temp = gameBoard.getChildren().stream().filter(
+  
+    public Rectangle getTile(int x, int y) {
+      List<Node> temp = gameBoard.getChildren().stream().filter(
                 new Predicate<Node>() {
                     @Override
                     public boolean test(Node node) {
                         try {
                             Rectangle temp = (Rectangle) node;
-                            return temp.getX() == player.getX() && temp.getY() == player.getY();
+                            return temp.getX() == x && temp.getY() == y;
                         } catch (Exception e) {
                             return false;
                         }

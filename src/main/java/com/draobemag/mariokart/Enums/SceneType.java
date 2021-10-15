@@ -31,7 +31,7 @@ public enum SceneType {
                 break;
             case MAIN:
                 fxmlPath = "gameboard-view.fxml";
-                width = 520; height = 640;
+                width = 1220; height = 1040;
                 break;
             default:
                 //should not be reached
