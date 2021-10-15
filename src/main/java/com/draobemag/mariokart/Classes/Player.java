@@ -29,11 +29,11 @@ public class Player {
         return this.position;
     }
 
-    public void move() {
-        if (position == GlobalDefine.coords.length - 1) {
-            position = 0;
-        } else {
-            position += 1;
+    public void move(int amount) {
+        position += amount;
+
+        if (position >= GlobalDefine.coords.length - 1) {
+            position -= GlobalDefine.coords.length - 1;
         }
     }
 

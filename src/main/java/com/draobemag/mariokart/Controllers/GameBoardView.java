@@ -62,7 +62,7 @@ public class GameBoardView {
         }
       
         this.currInd = GameManager.getStartPoint() - 1;
-        this.currPlayer = this.players.get(this.currInd);
+        //this.currPlayer = this.players.get(this.currInd);
         this.currPlayer = this.players.get(GameManager.getStartPoint() - 1);
 
         moveButton.setOnAction(event -> {moveSpriteRandomNumTiles(this.currPlayer);});
@@ -116,17 +116,29 @@ public class GameBoardView {
         } else {
             temp.setFill(Color.GREENYELLOW);
         }
-        player.move();
+        player.move(1);
         temp = this.getTile(GlobalDefine.coords[player.getPosition()].y,GlobalDefine.coords[player.getPosition()].x);
         temp.setFill(new ImagePattern(player.getSprite()));
     }
 
     public void moveSpriteNumTiles(Player player, int num_tiles) {
-        for (int i = 0; i < num_tiles; i++) {
-            this.moveSprite(player);
+        Rectangle temp = this.getTile(GlobalDefine.coords[player.getPosition()].y,GlobalDefine.coords[player.getPosition()].x);
+        if (player.getPosition() % 12 == 0) {
+            temp.setFill(Color.ORANGE);
+        } else if (player.getPosition() % 2 == 0) {
+            temp.setFill(Color.PALEVIOLETRED);
+        } else {
+            temp.setFill(Color.GREENYELLOW);
         }
+        player.move(num_tiles);
+        temp = this.getTile(GlobalDefine.coords[player.getPosition()].y,GlobalDefine.coords[player.getPosition()].x);
+        temp.setFill(new ImagePattern(player.getSprite()));
+
         this.currPlayer.updateMoney();
         this.currPlayer.updateLabel();
+
+        //TODO: Does this change the current player?
+        // We probably want this to be tied to the button behavior
         if (this.currInd == this.players.size() - 1) {
             this.currInd = 0;
             this.currPlayer = this.players.get(this.currInd);
