@@ -16,7 +16,9 @@ public class Player {
     public Player(Image sprite, int money, String name) {
         this.sprite = sprite;
         position = 0;
-        this.player_label = new javafx.scene.control.Label(this.name + ": " + String.valueOf(this.money));
+        this.player_label = new javafx.scene.control.Label(this.name
+                + ": " + String.valueOf(this.money) + " kmph");
+        this.player_label.setId(name + "Label");
         this.money = money;
         this.name = name;
     }
@@ -54,7 +56,8 @@ public class Player {
     }
 
     public void updateLabel() {
-        this.player_label.setText(this.name + ": " + String.valueOf(this.money));
+        this.player_label.setText(this.name + ": "
+                + String.valueOf(this.money)  + " kmph");
     }
 
     public javafx.scene.control.Label getLabel() {

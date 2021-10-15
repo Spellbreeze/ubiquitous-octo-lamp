@@ -52,13 +52,12 @@ public class GameBoardView {
     public void initialize() {
         gameBoard.setPrefSize(755, 755);
         this.players = new ArrayList<Player>();
-        HBox temp = new HBox();
+        VBox temp = new VBox();
         layout.getChildren().add(temp);
         this.players = GameManager.getPlayerList();
         for (int i = 0; i < this.players.size(); i++) {
             temp.getChildren().add(this.players.get(i).getLabel());
             this.players.get(i).updateLabel();
-            this.players.get(i).updateMoney();
         }
       
         this.currInd = GameManager.getStartPoint() - 1;
