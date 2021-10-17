@@ -5,6 +5,8 @@ import com.draobemag.mariokart.HelloApplication;
 
 
 import com.draobemag.mariokart.Singletons.GameManager;
+import javafx.scene.control.Alert;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.TextField;
 import org.junit.Test;
 
@@ -20,7 +22,7 @@ import org.testfx.matcher.base.NodeMatchers;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.matcher.control.LabeledMatchers.*;
 
@@ -72,5 +74,50 @@ public class TileTests extends ApplicationTest {
 
         ArrayList<Player> players = GameManager.getPlayerList();
         Assertions.assertNotEquals(50, players.get(0).getMoney());
+    }
+
+    private int getDiceValueFromAlertText(String alertText) {
+        // Alert text has the form: "You rolled a 5!"
+        // Index 13 contains the dice roll number
+        return alertText.charAt(13) - 48;
+    }
+
+    @Test
+    public void testDiceRollValues() {
+        getToGameScreen();
+        // Arbitrary number of iterations
+        for (int i = 0; i < 5; i++) {
+            clickOn("#moveButton");
+            Node alertNode = lookup(".dialog-pane").query();
+            assertNotNull(alertNode);
+
+            String alertText = ((DialogPane) alertNode).getContentText();
+            int diceValue = getDiceValueFromAlertText(alertText);
+            assert(diceValue >= 1 && diceValue <= 6);
+            clickOn("OK");
+        }
+    }
+
+    @Test
+    public void testDiceRollMovement() {
+        getToGameScreen();
+        // Arbitrary number of iterations, but must be sufficiently small (see comment on assertion)
+        for (int i = 0; i < 4; i++) {
+            int nplayers = GameManager.GetNumPlayers();
+            Player curr_player = GameManager.getPlayerList().get(i % nplayers);
+            int start_pos = curr_player.getPosition();
+            // TODO: refactor this duplicated code into separate function
+            clickOn("#moveButton");
+            Node alertNode = lookup(".dialog-pane").query();
+            assertNotNull(alertNode);
+            String alertText = ((DialogPane) alertNode).getContentText();
+            int diceValue = getDiceValueFromAlertText(alertText);
+            clickOn("OK");
+            int end_pos = curr_player.getPosition();
+            // Check that the player's position was updated correctly based on the dice value
+            // This doesn't correctly handle wraparound when the player makes it back to position 0
+            assertEquals(end_pos - start_pos, diceValue);
+        }
+
     }
 }
