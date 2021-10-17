@@ -127,8 +127,6 @@ public class PlayerConfigController {
         }
         playerOrder = new ArrayList<Integer>(playOrder);
         GameManager.setStartPoint(playerOrder.get(0));
-
-
         GameManager.GameManager().stage.setScene(SceneType.LoadScene(SceneType.MAIN));
         //System.out.println(playerOrder);
         //System.out.println("start player is: " + startPlayer);

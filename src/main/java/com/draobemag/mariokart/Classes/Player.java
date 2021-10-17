@@ -11,14 +11,11 @@ public class Player {
     Image sprite;
     String name;
     int money;
-    private javafx.scene.control.Label player_label;
+    private Label player_label;
 
     public Player(Image sprite, int money, String name) {
         this.sprite = sprite;
         position = 0;
-        this.player_label = new javafx.scene.control.Label(this.name
-                + ": " + String.valueOf(this.money) + " kmph");
-        this.player_label.setId(name + "Label");
         this.money = money;
         this.name = name;
     }
@@ -29,6 +26,10 @@ public class Player {
 
     public int getPosition() {
         return this.position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
     }
 
     public void move(int amount) {
@@ -42,17 +43,21 @@ public class Player {
     public void updateMoney() {
         if (position % 12 == 0) {
             Random rand = new Random();
-            int val = rand.nextInt(30);
-            if (val % 2 == 0) {
-                this.money -= val;
+            int val = rand.nextInt(10);
+            if (this.money > 100) {
+                this.money -= val + 10;
             } else {
-                this.money += val;
+                this.money += val + 10;
             }
         } else if (position % 2 == 0) {
             this.money -= 5;
         } else {
             this.money += 5;
         }
+    }
+
+    public void setLabel(Label label) {
+        this.player_label = label;
     }
 
     public void updateLabel() {
@@ -77,7 +82,7 @@ public class Player {
     {
         return money;
     }
-    public void setMoney()
+    public void setMoney(int money)
     {
         this.money = money;
     }

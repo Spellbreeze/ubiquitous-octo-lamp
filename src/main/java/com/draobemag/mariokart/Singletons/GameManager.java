@@ -9,7 +9,6 @@ import java.util.List;
 public class GameManager {
     private static GameManager instance = null;
 
-
     // Various game & player information
     public Stage stage;
     public ArrayList<Player> playerList;
@@ -17,6 +16,7 @@ public class GameManager {
     public ArrayList<Integer> sprites;
     public int startNum;
     public int startingMoney;
+    private ArrayList<Player> players;
 
     private GameManager(Stage stage)
     {
@@ -77,5 +77,15 @@ public class GameManager {
     public static void SetStartingMoney(int startingMoney)
     {
         instance.startingMoney = startingMoney;
+    }
+
+    public static ArrayList<Player> GetPlayerList() {return instance.players;}
+
+    public static void SetPlayerList(ArrayList<Player> players) {instance.players = players;}
+
+    public static void refresh() {
+        if (instance.players != null){
+            instance.players.clear();
+        }
     }
 }

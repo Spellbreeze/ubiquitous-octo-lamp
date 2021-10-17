@@ -31,6 +31,7 @@ import java.util.Random;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import javafx.scene.control.Button;
 
 public class GameBoardView {
 
@@ -38,35 +39,53 @@ public class GameBoardView {
     private GridPane gameBoard;
 
     @FXML
-    private HBox layout;
-
-    private ArrayList<Player> players;
-
-    @FXML
-    private javafx.scene.control.Button moveButton;
+    private Button moveButton;
 
     private Player currPlayer;
 
     private int currInd;
 
+    @FXML
+    private Label p1_speedlabel;
+
+    @FXML
+    private Label p2_speedlabel;
+
+    @FXML
+    private Label p3_speedlabel;
+
+    @FXML
+    private Label p4_speedlabel;
+
+    @FXML
+    private void movePlayer() {
+        moveSpriteRandomNumTiles(currPlayer);
+    }
+
     public void initialize() {
         gameBoard.setPrefSize(755, 755);
-        this.players = new ArrayList<Player>();
-        VBox temp = new VBox();
-        layout.getChildren().add(temp);
-        this.players = GameManager.getPlayerList();
-        for (int i = 0; i < this.players.size(); i++) {
-            temp.getChildren().add(this.players.get(i).getLabel());
-            this.players.get(i).updateLabel();
+        ArrayList<Player> playerTempList = new ArrayList<Player>();
+        playerTempList = GameManager.getPlayerList();
+        int count = 0;
+        Label[] localLabels = {
+                p1_speedlabel,
+                p2_speedlabel,
+                p3_speedlabel,
+                p4_speedlabel
+        };
+        for (count = 0; count < playerTempList.size(); count++) {
+            playerTempList.get(count).setLabel(localLabels[count]);
+            playerTempList.get(count).updateLabel();
         }
+        for (;count < 4; count++) {
+            localLabels[count].setText("");
+        }
+        GameManager.GameManager().SetPlayerList(playerTempList);
       
         this.currInd = GameManager.getStartPoint() - 1;
         //this.currPlayer = this.players.get(this.currInd);
-        this.currPlayer = this.players.get(GameManager.getStartPoint() - 1);
+        this.currPlayer = playerTempList.get(GameManager.getStartPoint() - 1);
 
-        moveButton.setOnAction(event -> {moveSpriteRandomNumTiles(this.currPlayer);});
-
-        int count = 0;
         for (int i = 0; i < GlobalDefine.boardMaxL + 1; i++) {
             for (int j = 0; j < GlobalDefine.boardMaxL + 1; j++) {
                 if (Arrays.asList(GlobalDefine.coords).contains(new Point(j,i))) {
@@ -106,21 +125,8 @@ public class GameBoardView {
         }
     }
 
-    public void moveSprite(Player player) {
-        Rectangle temp = this.getTile(GlobalDefine.coords[player.getPosition()].y,GlobalDefine.coords[player.getPosition()].x);
-        if (player.getPosition() % 12 == 0) {
-            temp.setFill(Color.ORANGE);
-        } else if (player.getPosition() % 2 == 0) {
-            temp.setFill(Color.PALEVIOLETRED);
-        } else {
-            temp.setFill(Color.GREENYELLOW);
-        }
-        player.move(1);
-        temp = this.getTile(GlobalDefine.coords[player.getPosition()].y,GlobalDefine.coords[player.getPosition()].x);
-        temp.setFill(new ImagePattern(player.getSprite()));
-    }
-
     public void moveSpriteNumTiles(Player player, int num_tiles) {
+        ArrayList<Player> playerTempList = GameManager.GameManager().GetPlayerList();
         Rectangle temp = this.getTile(GlobalDefine.coords[player.getPosition()].y,GlobalDefine.coords[player.getPosition()].x);
         if (player.getPosition() % 12 == 0) {
             temp.setFill(Color.ORANGE);
@@ -138,12 +144,12 @@ public class GameBoardView {
 
         //TODO: Does this change the current player?
         // We probably want this to be tied to the button behavior
-        if (this.currInd == this.players.size() - 1) {
+        if (this.currInd == playerTempList.size() - 1) {
             this.currInd = 0;
-            this.currPlayer = this.players.get(this.currInd);
+            this.currPlayer = playerTempList.get(this.currInd);
         } else {
             this.currInd += 1;
-            this.currPlayer = this.players.get(this.currInd);
+            this.currPlayer = playerTempList.get(this.currInd);
         }
     }
 
