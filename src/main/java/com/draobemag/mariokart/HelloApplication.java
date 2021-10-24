@@ -26,7 +26,7 @@ public class HelloApplication extends Application {
         gameManager.stage.setScene(SceneType.LoadScene(SceneType.WELCOME));
         gameManager.stage.show();
 
-        musicHandler.play();
+        //musicHandler.play();
     }
 
     @Override

@@ -84,38 +84,38 @@ public class TileTests extends ApplicationTest {
         return Integer.parseInt(alertText.replaceAll("[\\D]", ""));
     }
 
-    @Test
-    public void testRedTiles() {
-        Player p1 = new Player(new Image(GlobalDefine.marioUrl), 0, "p1");
-        p1.setPosition(2);
-        p1.updateMoney();
-        assertEquals(p1.getMoney(), -5);
-    }
-
-    @Test
-    public void testGreenTiles() {
-        Player p1 = new Player(new Image(GlobalDefine.marioUrl), 0, "p1");
-        p1.setPosition(1);
-        p1.updateMoney();
-        assertEquals(p1.getMoney(), 5);
-    }
-
-    @Test
-    public void testPlusChanceTiles() {
-        Player p1 = new Player(new Image(GlobalDefine.marioUrl), 0, "p1");
-        p1.setPosition(12);
-        p1.updateMoney();
-        assert(p1.getMoney() >= 10);
-    }
-
-    @Test
-    public void testMinusChanceTiles() {
-        Player p1 = new Player(new Image(GlobalDefine.marioUrl), 0, "p1");
-        p1.setMoney(109);
-        p1.setPosition(0);
-        p1.updateMoney();
-        assert(p1.getMoney() < 100);
-    }
+//    @Test
+//    public void testRedTiles() {
+//        Player p1 = new Player(new Image(GlobalDefine.marioUrl), 0, "p1");
+//        p1.setPosition(2);
+//        p1.updateMoney();
+//        assertEquals(p1.getMoney(), -5);
+//    }
+//
+//    @Test
+//    public void testGreenTiles() {
+//        Player p1 = new Player(new Image(GlobalDefine.marioUrl), 0, "p1");
+//        p1.setPosition(1);
+//        p1.updateMoney();
+//        assertEquals(p1.getMoney(), 5);
+//    }
+//
+//    @Test
+//    public void testPlusChanceTiles() {
+//        Player p1 = new Player(new Image(GlobalDefine.marioUrl), 0, "p1");
+//        p1.setPosition(12);
+//        p1.updateMoney();
+//        assert(p1.getMoney() >= 10);
+//    }
+//
+//    @Test
+//    public void testMinusChanceTiles() {
+//        Player p1 = new Player(new Image(GlobalDefine.marioUrl), 0, "p1");
+//        p1.setMoney(109);
+//        p1.setPosition(0);
+//        p1.updateMoney();
+//        assert(p1.getMoney() < 100);
+//    }
 
     @Test
     public void testDiceRollValues() {

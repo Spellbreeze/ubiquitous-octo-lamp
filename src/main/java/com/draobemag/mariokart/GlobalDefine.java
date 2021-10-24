@@ -9,6 +9,7 @@ public class GlobalDefine {
     public static String luigiUrl = "file:src/main/resources/images/luigi_sprite.jpg";
     public static String bowserUrl = "file:src/main/resources/images/bowser_sprite.png";
     public static String peachUrl = "file:src/main/resources/images/peach_sprite.png";
+    public static String dollarsignUrl = "file:src/main/resources/images/dollar_sign.png";
     public static ArrayList<String> sprites = new ArrayList<String>() {
         {
             add(marioUrl);
@@ -17,6 +18,7 @@ public class GlobalDefine {
             add(peachUrl);
         }
     };;
+    public static int paywallTax = 15;
     public static int boardMaxL = 12;
     public static Point[] coords = new Point[] {
             new Point(1,1),
