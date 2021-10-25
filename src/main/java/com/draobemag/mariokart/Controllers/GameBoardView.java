@@ -2,6 +2,7 @@ package com.draobemag.mariokart.Controllers;
 
 
 import com.draobemag.mariokart.Classes.Player;
+import com.draobemag.mariokart.Enums.SceneType;
 import com.draobemag.mariokart.GlobalDefine;
 import com.draobemag.mariokart.Singletons.GameManager;
 import eu.hansolo.tilesfx.Tile;
@@ -24,6 +25,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.beans.EventHandler;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -32,6 +34,8 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javafx.scene.control.Button;
+
+import javax.swing.*;
 
 public class GameBoardView {
 
@@ -58,7 +62,10 @@ public class GameBoardView {
     private Label p4_speedlabel;
 
     @FXML
-    private void movePlayer() {
+    private Label diceRoll;
+
+    @FXML
+    private void movePlayer() throws IOException {
         moveSpriteRandomNumTiles(currPlayer);
     }
 
@@ -81,7 +88,7 @@ public class GameBoardView {
             localLabels[count].setText("");
         }
         GameManager.GameManager().SetPlayerList(playerTempList);
-      
+
         this.currInd = GameManager.getStartPoint() - 1;
         //this.currPlayer = this.players.get(this.currInd);
         this.currPlayer = playerTempList.get(GameManager.getStartPoint() - 1);
@@ -94,6 +101,8 @@ public class GameBoardView {
                         tile.setFill(Color.ORANGE);
                     } else if (count % 2 == 0 && count != 0) {
                         tile.setFill(Color.PALEVIOLETRED);
+                    } else if (count % 5 == 0 && count != 0) {
+                        tile.setFill(Color.ORANGERED);
                     } else {
                         tile.setFill(Color.GREENYELLOW);
                     }
@@ -125,7 +134,7 @@ public class GameBoardView {
         }
     }
 
-    public void moveSpriteNumTiles(Player player, int num_tiles) {
+    public void moveSpriteNumTiles(Player player, int num_tiles) throws IOException {
         ArrayList<Player> playerTempList = GameManager.GameManager().GetPlayerList();
         Rectangle temp = this.getTile(GlobalDefine.coords[player.getPosition()].y,GlobalDefine.coords[player.getPosition()].x);
         if (player.getPosition() % 12 == 0) {
@@ -136,11 +145,23 @@ public class GameBoardView {
             temp.setFill(Color.GREENYELLOW);
         }
         player.move(num_tiles);
+        if (landedOnLastTile(player)) {
+            if (player.getMoney() < GlobalDefine.payWallPrice) {
+                if (player.getPosition()-5 >= 0)
+                    player.setPosition(player.getPosition()-5);
+                else
+                    player.setPosition(0);
+            }
+        }
         temp = this.getTile(GlobalDefine.coords[player.getPosition()].y,GlobalDefine.coords[player.getPosition()].x);
+        if (landedOnLastTile(player)) {
+            GameManager.GameManager().stage.setScene(SceneType.LoadScene(SceneType.WINNER));
+        }
         temp.setFill(new ImagePattern(player.getSprite()));
 
         this.currPlayer.updateMoney();
         this.currPlayer.updateLabel();
+
 
         //TODO: Does this change the current player?
         // We probably want this to be tied to the button behavior
@@ -155,23 +176,25 @@ public class GameBoardView {
 
 
     // TODO: Consider moving the 'random' logic to a separate utility class
-    public void moveSpriteRandomNumTiles(Player player) {
+    public void moveSpriteRandomNumTiles(Player player) throws IOException {
 
         int MIN_MOVE = 1;
         int MAX_MOVE = 6;
         Random rand = new Random();
         int random_num_tiles_to_move = rand.nextInt(MAX_MOVE-MIN_MOVE + 1) + MIN_MOVE;
-
+        diceRoll.setText(player.getName() + " rolled: " + String.valueOf(random_num_tiles_to_move));
+        /*
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText("Dice Roll");
         alert.setContentText(String.format("You rolled a %d!", random_num_tiles_to_move));
         alert.showAndWait();
+        */
 
         moveSpriteNumTiles(player, random_num_tiles_to_move);
     }
-  
+
     public Rectangle getTile(int x, int y) {
-      List<Node> temp = gameBoard.getChildren().stream().filter(
+        List<Node> temp = gameBoard.getChildren().stream().filter(
                 new Predicate<Node>() {
                     @Override
                     public boolean test(Node node) {
@@ -186,4 +209,31 @@ public class GameBoardView {
         ).collect(Collectors.toList());
         return (Rectangle) temp.get(0);
     }
+
+    public boolean landedOnLastTile(Player player) {
+        if (player.getPosition() == GlobalDefine.coords.length-1)
+            return true;
+        else
+            return false;
+    }
+    public boolean landedOnPayWallTile(Player player) {
+        if (getTileColor(player.getPosition()) == Color.ORANGERED)
+            return true;
+        else
+            return false;
+    }
+
+    public Color getTileColor(int position) {
+        if (position % 12 == 0)
+            return Color.ORANGE;
+        else if(position % 2 == 0)
+            return Color.PALEVIOLETRED;
+        else if (position % 5 == 0)
+            return Color.ORANGERED;
+        else
+            return Color.GREENYELLOW;
+
+    }
+
 }
+

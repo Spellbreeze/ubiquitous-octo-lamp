@@ -1,6 +1,7 @@
 package com.draobemag.mariokart.Classes;
 
 import com.draobemag.mariokart.GlobalDefine;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 
@@ -33,11 +34,17 @@ public class Player {
     }
 
     public void move(int amount) {
-        position += amount;
-
+        if (position + amount <= GlobalDefine.coords.length-1) {
+            position += amount;
+        } else {
+            position = GlobalDefine.coords.length-1;
+        }
+        /*
         if (position >= GlobalDefine.coords.length - 1) {
             position -= GlobalDefine.coords.length - 1;
         }
+        position += amount;
+         */
     }
 
     public void updateMoney() {
