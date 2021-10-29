@@ -33,6 +33,7 @@ public class Player {
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     public boolean move(int amount) {
         if (position + amount <= GlobalDefine.coords.length-1) {
             position += amount;
@@ -47,6 +48,8 @@ public class Player {
          */
         return false;
     }
+=======
+>>>>>>> 2aaae770ce009e950123f56bbdac22f3b3a55760
 
     public void updateMoney() {
         if (position % 12 == 0) {
@@ -62,12 +65,11 @@ public class Player {
         } else {
             this.money += 5;
         }
-=======
+
     // Returns true if the game is over, false otherwise
     public boolean move(int amount) {
         position += amount;
         return position >= GlobalDefine.coords.length - 1;
->>>>>>> 4df051c28bc4e525557f54096faa00a501200fe2
     }
 
     public void setLabel(Label label) {
