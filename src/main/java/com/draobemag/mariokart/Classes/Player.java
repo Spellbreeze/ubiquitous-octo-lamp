@@ -33,6 +33,7 @@ public class Player {
         this.position = position;
     }
 
+<<<<<<< HEAD
     public void move(int amount) {
         if (position + amount <= GlobalDefine.coords.length-1) {
             position += amount;
@@ -61,6 +62,12 @@ public class Player {
         } else {
             this.money += 5;
         }
+=======
+    // Returns true if the game is over, false otherwise
+    public boolean move(int amount) {
+        position += amount;
+        return position >= GlobalDefine.coords.length - 1;
+>>>>>>> 4df051c28bc4e525557f54096faa00a501200fe2
     }
 
     public void setLabel(Label label) {

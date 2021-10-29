@@ -1,8 +1,10 @@
 package com.draobemag.mariokart.Singletons;
 
 import com.draobemag.mariokart.Classes.Player;
+import com.draobemag.mariokart.Enums.SceneType;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +15,6 @@ public class GameManager {
     public Stage stage;
     public ArrayList<Player> playerList;
     public int numberOfPlayers;
-    public ArrayList<Integer> sprites;
     public int startNum;
     public int startingMoney;
     private ArrayList<Player> players;
@@ -26,11 +27,8 @@ public class GameManager {
 
     public static GameManager GameManager(Stage stage)
     {
-        if (instance == null)
-        {
-            instance = new GameManager(stage);
-            instance.playerList = new ArrayList<>();
-        }
+        instance = new GameManager(stage);
+        instance.playerList = new ArrayList<>();
         return instance;
     }
 
@@ -87,5 +85,11 @@ public class GameManager {
         if (instance.players != null){
             instance.players.clear();
         }
+    }
+    public static void startGame(Stage stage) throws IOException {
+        GameManager gameManager = GameManager.GameManager(stage);
+        gameManager.stage.setTitle("Hello!");
+        gameManager.stage.setScene(SceneType.LoadScene(SceneType.WELCOME));
+        gameManager.stage.show();
     }
 }

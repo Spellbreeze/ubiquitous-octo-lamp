@@ -2,15 +2,19 @@ package com.draobemag.mariokart.Controllers;
 
 
 import com.draobemag.mariokart.Classes.Player;
+<<<<<<< HEAD
+=======
+import com.draobemag.mariokart.Classes.GameTileManager;
+>>>>>>> 4df051c28bc4e525557f54096faa00a501200fe2
 import com.draobemag.mariokart.Enums.SceneType;
 import com.draobemag.mariokart.GlobalDefine;
+import com.draobemag.mariokart.Enums.GameTileType;
 import com.draobemag.mariokart.Singletons.GameManager;
 import eu.hansolo.tilesfx.Tile;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
+import javafx.scene.control.*;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -49,6 +53,8 @@ public class GameBoardView {
 
     private int currInd;
 
+    private GameTileManager gameTileManager;
+
     @FXML
     private Label p1_speedlabel;
 
@@ -62,10 +68,14 @@ public class GameBoardView {
     private Label p4_speedlabel;
 
     @FXML
+<<<<<<< HEAD
     private Label diceRoll;
 
     @FXML
     private void movePlayer() throws IOException {
+=======
+    private void movePlayer()  throws IOException {
+>>>>>>> 4df051c28bc4e525557f54096faa00a501200fe2
         moveSpriteRandomNumTiles(currPlayer);
     }
 
@@ -93,6 +103,7 @@ public class GameBoardView {
         //this.currPlayer = this.players.get(this.currInd);
         this.currPlayer = playerTempList.get(GameManager.getStartPoint() - 1);
 
+<<<<<<< HEAD
         for (int i = 0; i < GlobalDefine.boardMaxL + 1; i++) {
             for (int j = 0; j < GlobalDefine.boardMaxL + 1; j++) {
                 if (Arrays.asList(GlobalDefine.coords).contains(new Point(j,i))) {
@@ -117,6 +128,12 @@ public class GameBoardView {
                 }
             }
         }
+=======
+
+        this.gameTileManager = new GameTileManager();
+        this.gameTileManager.initializeGameTiles(gameBoard);
+        this.gameTileManager.updatePlayerTile(this.currPlayer);
+>>>>>>> 4df051c28bc4e525557f54096faa00a501200fe2
 
         for (int i = 0; i < GlobalDefine.boardMaxL + 1; i++) {
             for (int j = 0; j < GlobalDefine.boardMaxL + 1; j++) {
@@ -135,15 +152,18 @@ public class GameBoardView {
     }
 
     public void moveSpriteNumTiles(Player player, int num_tiles) throws IOException {
+<<<<<<< HEAD
+=======
+        // TODO: def need to refactor this function
+>>>>>>> 4df051c28bc4e525557f54096faa00a501200fe2
         ArrayList<Player> playerTempList = GameManager.GameManager().GetPlayerList();
-        Rectangle temp = this.getTile(GlobalDefine.coords[player.getPosition()].y,GlobalDefine.coords[player.getPosition()].x);
-        if (player.getPosition() % 12 == 0) {
-            temp.setFill(Color.ORANGE);
-        } else if (player.getPosition() % 2 == 0) {
-            temp.setFill(Color.PALEVIOLETRED);
-        } else {
-            temp.setFill(Color.GREENYELLOW);
+        gameTileManager.updateNonPlayerTile(player.getPosition());
+        boolean isGameOver = player.move(num_tiles);
+        if (isGameOver) {
+            GameManager.GameManager().stage.setScene(SceneType.LoadScene(SceneType.WINNER));
+            return;
         }
+<<<<<<< HEAD
         player.move(num_tiles);
         if (landedOnLastTile(player)) {
             if (player.getMoney() < GlobalDefine.payWallPrice) {
@@ -161,6 +181,49 @@ public class GameBoardView {
 
         this.currPlayer.updateMoney();
         this.currPlayer.updateLabel();
+=======
+        GameTileType tileType =  gameTileManager.getGameTileType(player.getPosition());
+        int playerMoney = player.getMoney();
+        if (tileType == GameTileType.UNPAIDWALL) {
+            if (playerMoney >= GlobalDefine.paywallTax) {
+                Alert alert =
+                        new Alert(Alert.AlertType.CONFIRMATION,
+                                "Do you want to pay the paywall tax?",
+                                ButtonType.YES,
+                                ButtonType.NO
+                                );
+                alert.setTitle("Paywall Tax");
+                java.util.Optional<ButtonType> result = alert.showAndWait();
+
+                if (result.get() == ButtonType.YES) {
+                    player.setMoney(playerMoney - GlobalDefine.paywallTax);
+                    gameTileManager.setGameTileType(player.getPosition(), GameTileType.PAIDWALL);
+                } else {
+                    player.move(-1 * num_tiles);
+                }
+            } else {
+                Alert alert =
+                        new Alert(Alert.AlertType.ERROR,
+                                "You don't have enough money to pay the paywaall tax!");
+                alert.setTitle("Insufficient Funds");
+                java.util.Optional<ButtonType> result = alert.showAndWait();
+                player.move(-1 * num_tiles);
+            }
+        } else if (tileType == GameTileType.CHANCE) {
+            Random rand = new Random();
+            int val = rand.nextInt(10);
+            if (playerMoney > 100) {
+                player.setMoney(playerMoney - (val + 10));
+            } else {
+                player.setMoney(playerMoney + (val + 10));
+            }
+        } else if (tileType == GameTileType.LOSEMONEY) {
+            player.setMoney(playerMoney - 5);
+        } else if (tileType == GameTileType.GAINMONEY) {
+            player.setMoney(playerMoney + 5);
+        }
+        player.updateLabel();
+>>>>>>> 4df051c28bc4e525557f54096faa00a501200fe2
 
 
         //TODO: Does this change the current player?
@@ -171,6 +234,9 @@ public class GameBoardView {
         } else {
             this.currInd += 1;
             this.currPlayer = playerTempList.get(this.currInd);
+        }
+        for (Player p: playerTempList) {
+            gameTileManager.updatePlayerTile(p);
         }
     }
 
