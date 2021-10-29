@@ -21,12 +21,8 @@ public class HelloApplication extends Application {
         MusicHandler musicHandler = MusicHandler.MusicHandler();
         musicHandler.setCurrentSong("mario-raceway.mid");
 
-        GameManager gameManager = GameManager.GameManager(stage);
-        gameManager.stage.setTitle("Hello!");
-        gameManager.stage.setScene(SceneType.LoadScene(SceneType.WELCOME));
-        gameManager.stage.show();
-
-        //musicHandler.play();
+        GameManager.startGame(stage);
+        musicHandler.play();
     }
 
     @Override

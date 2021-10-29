@@ -10,7 +10,8 @@ public enum SceneType {
     WELCOME,
     CONFIG,
     PLAYER,
-    MAIN;
+    MAIN,
+    WINNER;
 
     public static Scene LoadScene(SceneType sceneType) throws IOException {
         String fxmlPath;
@@ -32,6 +33,10 @@ public enum SceneType {
             case MAIN:
                 fxmlPath = "gameboard-view.fxml";
                 width = 1220; height = 1040;
+                break;
+            case WINNER:
+                fxmlPath = "winner-view.fxml";
+                width = 420; height = 240;
                 break;
             default:
                 //should not be reached

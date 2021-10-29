@@ -3,6 +3,7 @@ package com.draobemag.mariokart.Controllers;
 
 import com.draobemag.mariokart.Classes.Player;
 import com.draobemag.mariokart.Classes.GameTileManager;
+import com.draobemag.mariokart.Enums.SceneType;
 import com.draobemag.mariokart.GlobalDefine;
 import com.draobemag.mariokart.Enums.GameTileType;
 import com.draobemag.mariokart.Singletons.GameManager;
@@ -25,6 +26,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.beans.EventHandler;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -61,7 +63,7 @@ public class GameBoardView {
     private Label p4_speedlabel;
 
     @FXML
-    private void movePlayer() {
+    private void movePlayer()  throws IOException {
         moveSpriteRandomNumTiles(currPlayer);
     }
 
@@ -110,11 +112,15 @@ public class GameBoardView {
         }
     }
 
-    public void moveSpriteNumTiles(Player player, int num_tiles) {
+    public void moveSpriteNumTiles(Player player, int num_tiles) throws IOException {
         // TODO: def need to refactor this function
         ArrayList<Player> playerTempList = GameManager.GameManager().GetPlayerList();
         gameTileManager.updateNonPlayerTile(player.getPosition());
-        player.move(num_tiles);
+        boolean isGameOver = player.move(num_tiles);
+        if (isGameOver) {
+            GameManager.GameManager().stage.setScene(SceneType.LoadScene(SceneType.WINNER));
+            return;
+        }
         GameTileType tileType =  gameTileManager.getGameTileType(player.getPosition());
         int playerMoney = player.getMoney();
         if (tileType == GameTileType.UNPAIDWALL) {
@@ -173,7 +179,7 @@ public class GameBoardView {
 
 
     // TODO: Consider moving the 'random' logic to a separate utility class
-    public void moveSpriteRandomNumTiles(Player player) {
+    public void moveSpriteRandomNumTiles(Player player) throws IOException {
 
         int MIN_MOVE = 1;
         int MAX_MOVE = 6;
