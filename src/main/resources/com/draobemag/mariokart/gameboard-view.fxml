@@ -24,6 +24,7 @@
             <Label fx:id="p3_speedlabel"/>
             <Label fx:id="p4_speedlabel"/>
         </VBox>
-    <Button fx:id="moveButton" text="Roll the dice!" onAction="#movePlayer"/>
+        <Button fx:id="moveButton" text="Roll the dice!" onAction="#movePlayer"/>
+        <Button fx:id="moveFive" text="Move5Debug" onAction="#movePlayer5" visible="false"/>
     </HBox>
 </VBox>

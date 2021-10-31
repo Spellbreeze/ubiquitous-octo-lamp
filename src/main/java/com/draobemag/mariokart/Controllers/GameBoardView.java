@@ -7,25 +7,18 @@ import com.draobemag.mariokart.Enums.SceneType;
 import com.draobemag.mariokart.GlobalDefine;
 import com.draobemag.mariokart.Enums.GameTileType;
 import com.draobemag.mariokart.Singletons.GameManager;
-import eu.hansolo.tilesfx.Tile;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 
 import java.awt.*;
-import java.awt.event.ActionListener;
-import java.beans.EventHandler;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,7 +26,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
+
 import javafx.scene.control.Button;
 
 public class GameBoardView {
@@ -43,6 +36,8 @@ public class GameBoardView {
 
     @FXML
     private Button moveButton;
+    @FXML
+    private Button moveFive;
 
     private Player currPlayer;
 
@@ -67,10 +62,16 @@ public class GameBoardView {
         moveSpriteRandomNumTiles(currPlayer);
     }
 
+    public Player testMakePaywallButtonVisible() {
+        moveFive.setVisible(true);
+
+        return currPlayer;
+    }
+
     public void initialize() {
         gameBoard.setPrefSize(755, 755);
         ArrayList<Player> playerTempList = new ArrayList<Player>();
-        playerTempList = GameManager.getPlayerList();
+        playerTempList = GameManager.GetPlayerList();
         int count = 0;
         Label[] localLabels = {
                 p1_speedlabel,
@@ -115,12 +116,13 @@ public class GameBoardView {
     public void moveSpriteNumTiles(Player player, int num_tiles) throws IOException {
         // TODO: def need to refactor this function
         ArrayList<Player> playerTempList = GameManager.GameManager().GetPlayerList();
-        gameTileManager.updateNonPlayerTile(player.getPosition());
+        int oldPosition = player.getPosition();
         boolean isGameOver = player.move(num_tiles);
         if (isGameOver) {
             GameManager.GameManager().stage.setScene(SceneType.LoadScene(SceneType.WINNER));
             return;
         }
+        gameTileManager.updateNonPlayerTile(oldPosition);
         GameTileType tileType =  gameTileManager.getGameTileType(player.getPosition());
         int playerMoney = player.getMoney();
         if (tileType == GameTileType.UNPAIDWALL) {
@@ -143,7 +145,7 @@ public class GameBoardView {
             } else {
                 Alert alert =
                         new Alert(Alert.AlertType.ERROR,
-                                "You don't have enough money to pay the paywaall tax!");
+                                "You don't have enough money to pay the paywall tax!");
                 alert.setTitle("Insufficient Funds");
                 java.util.Optional<ButtonType> result = alert.showAndWait();
                 player.move(-1 * num_tiles);
@@ -209,5 +211,9 @@ public class GameBoardView {
                 }
         ).collect(Collectors.toList());
         return (Rectangle) temp.get(0);
+    }
+
+    public void movePlayer5(ActionEvent actionEvent) throws IOException {
+        moveSpriteNumTiles(currPlayer, 5);
     }
 }

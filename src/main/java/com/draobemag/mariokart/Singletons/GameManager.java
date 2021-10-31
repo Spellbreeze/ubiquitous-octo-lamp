@@ -17,7 +17,6 @@ public class GameManager {
     public int numberOfPlayers;
     public int startNum;
     public int startingMoney;
-    private ArrayList<Player> players;
 
     private GameManager(Stage stage)
     {
@@ -32,9 +31,11 @@ public class GameManager {
         return instance;
     }
 
-    public static ArrayList<Player> getPlayerList() {
+    public static ArrayList<Player> GetPlayerList() {
         return instance.playerList;
     }
+
+    public static void SetPlayerList(ArrayList<Player> playerList) {instance.playerList = playerList;}
 
     public static int getStartPoint() {
         return instance.startNum;
@@ -77,13 +78,9 @@ public class GameManager {
         instance.startingMoney = startingMoney;
     }
 
-    public static ArrayList<Player> GetPlayerList() {return instance.players;}
-
-    public static void SetPlayerList(ArrayList<Player> players) {instance.players = players;}
-
     public static void refresh() {
-        if (instance.players != null){
-            instance.players.clear();
+        if (instance.playerList != null){
+            instance.playerList.clear();
         }
     }
     public static void startGame(Stage stage) throws IOException {
