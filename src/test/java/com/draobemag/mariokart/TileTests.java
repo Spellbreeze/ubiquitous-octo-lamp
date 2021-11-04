@@ -1,26 +1,17 @@
 package com.draobemag.mariokart;
 
 import com.draobemag.mariokart.Classes.Player;
-import com.draobemag.mariokart.HelloApplication;
 
 
 import com.draobemag.mariokart.Singletons.GameManager;
-import javafx.scene.control.Alert;
 import javafx.scene.control.DialogPane;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import org.junit.Test;
 
 import javafx.stage.Stage;
 import javafx.scene.Node;
-import javafx.scene.text.Text;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.testfx.framework.junit.ApplicationTest;
-import org.testfx.matcher.base.NodeMatchers;
 
 import java.util.ArrayList;
 
@@ -74,7 +65,7 @@ public class TileTests extends ApplicationTest {
         clickOn("#moveButton");
         clickOn("OK");
 
-        ArrayList<Player> players = GameManager.getPlayerList();
+        ArrayList<Player> players = GameManager.GetPlayerList();
         Assertions.assertNotEquals(50, players.get(0).getMoney());
     }
 
@@ -139,7 +130,7 @@ public class TileTests extends ApplicationTest {
         // Arbitrary number of iterations, but must be sufficiently small (see comment on assertion)
         for (int i = 0; i < 4; i++) {
             int nplayers = GameManager.GetNumPlayers();
-            int start_pos =  GameManager.getPlayerList().get(i % nplayers).getPosition();
+            int start_pos =  GameManager.GetPlayerList().get(i % nplayers).getPosition();
             // TODO: refactor this duplicated code into separate function
             clickOn("#moveButton");
             Node alertNode = lookup(".dialog-pane").query();
@@ -147,7 +138,7 @@ public class TileTests extends ApplicationTest {
             String alertText = ((DialogPane) alertNode).getContentText();
             int diceValue = getDiceValueFromAlertText(alertText);
             clickOn("OK");
-            int end_pos =  GameManager.getPlayerList().get(i % nplayers).getPosition();
+            int end_pos =  GameManager.GetPlayerList().get(i % nplayers).getPosition();
             // Check that the player's position was updated correctly based on the dice value
             // This doesn't correctly handle wraparound when the player makes it back to position 0
             System.out.printf("start pos: %d, end pos: %d\n", start_pos, end_pos);

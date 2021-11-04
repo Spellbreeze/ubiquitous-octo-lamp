@@ -1,15 +1,9 @@
 package com.draobemag.mariokart.Controllers;
 import com.draobemag.mariokart.Classes.Player;
-import com.draobemag.mariokart.Enums.SceneType;
 import com.draobemag.mariokart.Singletons.GameManager;
-import javafx.beans.NamedArg;
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -43,6 +37,7 @@ public class WinnerController {
 
 
     public void initialize() {
+<<<<<<< HEAD
 <<<<<<< HEAD
         ArrayList<Player> players = GameManager.getPlayerList();
         for (Player p : players) {
@@ -100,6 +95,9 @@ public class WinnerController {
 
 =======
         ArrayList<Player> rankedPlayers = GameManager.getPlayerList();
+=======
+        ArrayList<Player> rankedPlayers = GameManager.GetPlayerList();
+>>>>>>> 396ccb9bc0bbcbcfd27773c3ee0a475a3124ebe2
 
         // Rank players in descending order based on position
         rankedPlayers.sort((p1, p2) -> p1.getPosition() - p2.getPosition() >= 0 ? -1 : 1);

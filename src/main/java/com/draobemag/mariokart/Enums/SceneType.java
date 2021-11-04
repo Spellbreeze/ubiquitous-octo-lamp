@@ -1,5 +1,7 @@
 package com.draobemag.mariokart.Enums;
 
+import com.draobemag.mariokart.Controllers.GameBoardView;
+import com.draobemag.mariokart.Controllers.WinnerController;
 import com.draobemag.mariokart.HelloApplication;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -12,6 +14,17 @@ public enum SceneType {
     PLAYER,
     MAIN,
     WINNER;
+
+    private static GameBoardView gameBoardView;
+    private static WinnerController winnerController;
+
+    public static GameBoardView getGameBoardView() {
+        return gameBoardView;
+    }
+
+    public static WinnerController getWinnerController() {
+        return winnerController;
+    }
 
     public static Scene LoadScene(SceneType sceneType) throws IOException {
         String fxmlPath;
@@ -46,6 +59,14 @@ public enum SceneType {
         }
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource(fxmlPath));
         Scene scene = new Scene(fxmlLoader.load(), width, height);
+        if (sceneType == MAIN)
+        {
+            gameBoardView = (GameBoardView) fxmlLoader.getController();
+        }
+        else if (sceneType == WINNER)
+        {
+            winnerController = (WinnerController) fxmlLoader.getController();
+        }
         return scene;
     }
 }
