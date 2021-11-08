@@ -27,7 +27,7 @@ public class NumberPickGameController extends GameBoardView {
         int min = 1;
         int max = 100;
         number = (int)(Math.random() * (max-min+1)+min);
-        System.out.println("Number is: " + number);
+        //System.out.println("Number is: " + number);
     }
 
     @FXML
@@ -36,9 +36,6 @@ public class NumberPickGameController extends GameBoardView {
     }
     private void checker(Player player) throws IOException {
         int pG = Integer.parseInt(playerGuess.getText());
-        System.out.println(pG);
-        System.out.println(number);
-        System.out.println(player.getName());
         if (pG == number) {
           player.setMoney(player.getMoney() + 15);
         }
