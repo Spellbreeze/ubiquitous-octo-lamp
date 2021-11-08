@@ -48,6 +48,7 @@ public class Player {
         } else {
             this.money += 5;
         }
+    }
 
     // Returns true if the game is over, false otherwise
     public boolean move(int amount) {

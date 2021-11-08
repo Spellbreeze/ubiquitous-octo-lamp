@@ -37,67 +37,7 @@ public class WinnerController {
 
 
     public void initialize() {
-<<<<<<< HEAD
-<<<<<<< HEAD
-        ArrayList<Player> players = GameManager.getPlayerList();
-        for (Player p : players) {
-            if (p.getPosition() == 59)
-                winnerName.setText(p.getName() + " reached tile 59/59 first and hence is the WINNER!");
-        }
-
-        //p1Location.setText(String.valueOf(players.get(0).getPosition()));
-        int numOfPlayers = players.size();
-        System.out.print(numOfPlayers);
-        switch (numOfPlayers) {
-            case 2:
-                player1Location.setText(players.get(0).getName() + " location:");
-                player1Location.setVisible(true);
-                p1Location.setText(String.valueOf(players.get(0).getPosition()));
-                p1Location.setVisible(true);
-                player1Location.setText(players.get(1).getName()+ " location:");
-                player2Location.setVisible(true);
-                p2Location.setText(String.valueOf(players.get(1).getPosition()));
-                p2Location.setVisible(true);
-                break;
-            case 3:
-                player1Location.setText(players.get(0).getName() + " location:");
-                player1Location.setVisible(true);
-                p1Location.setText(String.valueOf(players.get(0).getPosition()));
-                p1Location.setVisible(true);
-                player2Location.setText(players.get(1).getName() + " location:");
-                player2Location.setVisible(true);
-                p2Location.setText(String.valueOf(players.get(1).getPosition()));
-                p2Location.setVisible(true);
-                player3Location.setText(players.get(2).getName() + " location:");
-                player3Location.setVisible(true);
-                p3Location.setText(String.valueOf(players.get(2).getPosition()));
-                p3Location.setVisible(true);
-                break;
-            case 4:
-                player1Location.setText(players.get(0).getName() + " location:");
-                player1Location.setVisible(true);
-                p1Location.setText(String.valueOf(players.get(0).getPosition()));
-                p1Location.setVisible(true);
-                player2Location.setText(players.get(1).getName() + " location:");
-                player2Location.setVisible(true);
-                p2Location.setText(String.valueOf(players.get(1).getPosition()));
-                p2Location.setVisible(true);
-                player3Location.setText(players.get(2).getName() + " location:");
-                player3Location.setVisible(true);
-                p3Location.setText(String.valueOf(players.get(2).getPosition()));
-                p3Location.setVisible(true);
-                player4Location.setText(players.get(3).getName() + " location:");
-                player4Location.setVisible(true);
-                p4Location.setText(String.valueOf(players.get(3).getPosition()));
-                p4Location.setVisible(true);
-                break;
-        }
-
-=======
-        ArrayList<Player> rankedPlayers = GameManager.getPlayerList();
-=======
         ArrayList<Player> rankedPlayers = GameManager.GetPlayerList();
->>>>>>> 396ccb9bc0bbcbcfd27773c3ee0a475a3124ebe2
 
         // Rank players in descending order based on position
         rankedPlayers.sort((p1, p2) -> p1.getPosition() - p2.getPosition() >= 0 ? -1 : 1);
@@ -129,7 +69,6 @@ public class WinnerController {
             p4Location.setVisible(true);
 
         }
->>>>>>> 4df051c28bc4e525557f54096faa00a501200fe2
     }
     @FXML
     protected void closeGame() {
@@ -137,10 +76,6 @@ public class WinnerController {
     }
     @FXML
     protected void playAgain() throws IOException {
-<<<<<<< HEAD
-        GameManager.GameManager().stage.setScene(SceneType.LoadScene(SceneType.WELCOME));
-=======
         GameManager.startGame(GameManager.GameManager().stage);
->>>>>>> 4df051c28bc4e525557f54096faa00a501200fe2
     }
 }
