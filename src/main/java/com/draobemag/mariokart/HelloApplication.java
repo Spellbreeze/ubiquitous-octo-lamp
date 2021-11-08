@@ -22,7 +22,7 @@ public class HelloApplication extends Application {
         musicHandler.setCurrentSong("mario-raceway.mid");
 
         GameManager.startGame(stage);
-        musicHandler.play();
+        //musicHandler.play();
     }
 
     @Override

@@ -215,6 +215,7 @@ public class GameBoardView {
                 player.move(-1 * num_tiles);
             }
         } else if (tileType == GameTileType.CHANCE) {
+            /*
             Random rand = new Random();
             int val = rand.nextInt(10);
             if (playerMoney > 100) {
@@ -222,6 +223,9 @@ public class GameBoardView {
             } else {
                 player.setMoney(playerMoney + (val + 10));
             }
+            */
+            GameManager.GameManager().stage.setScene(SceneType.LoadScene(SceneType.PICKNUMBER));
+            player.updateLabel();
         } else if (tileType == GameTileType.LOSEMONEY) {
             player.setMoney(playerMoney - 5);
         } else if (tileType == GameTileType.GAINMONEY) {
@@ -254,12 +258,12 @@ public class GameBoardView {
         Random rand = new Random();
         int random_num_tiles_to_move = rand.nextInt(MAX_MOVE-MIN_MOVE + 1) + MIN_MOVE;
         diceRoll.setText(player.getName() + " rolled: " + String.valueOf(random_num_tiles_to_move));
-        /*
+
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText("Dice Roll");
         alert.setContentText(String.format("You rolled a %d!", random_num_tiles_to_move));
         alert.showAndWait();
-        */
+
 
         moveSpriteNumTiles(player, random_num_tiles_to_move);
     }

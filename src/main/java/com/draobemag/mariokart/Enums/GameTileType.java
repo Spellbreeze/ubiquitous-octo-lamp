@@ -6,4 +6,5 @@ public enum GameTileType {
     GAINMONEY,
     LOSEMONEY,
     CHANCE,
+    MINIGAME,
 }

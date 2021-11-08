@@ -13,7 +13,8 @@ public enum SceneType {
     CONFIG,
     PLAYER,
     MAIN,
-    WINNER;
+    WINNER,
+    PICKNUMBER;
 
     private static GameBoardView gameBoardView;
     private static WinnerController winnerController;
@@ -50,6 +51,10 @@ public enum SceneType {
             case WINNER:
                 fxmlPath = "winner-view.fxml";
                 width = 420; height = 240;
+                break;
+            case PICKNUMBER:
+                fxmlPath = "numberPick-view.fxml";
+                width = 420; height=240;
                 break;
             default:
                 //should not be reached
