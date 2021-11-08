@@ -1,3 +1,4 @@
+
 import com.draobemag.mariokart.HelloApplication;
 import javafx.scene.Node;
 import javafx.stage.Stage;

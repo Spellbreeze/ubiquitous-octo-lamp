@@ -44,7 +44,6 @@ public class GameBoardView {
     private Player currPlayer;
 
     private int currInd;
-    pri Label diceRoll;
 
     private GameTileManager gameTileManager;
 
