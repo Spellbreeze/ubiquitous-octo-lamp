@@ -153,6 +153,7 @@ public class GameBoardView {
                 player.move(-1 * num_tiles);
             }
         } else if (tileType == GameTileType.CHANCE) {
+            /*
             Random rand = new Random();
             int val = rand.nextInt(10);
             if (playerMoney > 100) {
@@ -160,6 +161,8 @@ public class GameBoardView {
             } else {
                 player.setMoney(playerMoney + (val + 10));
             }
+             */
+            GameManager.GameManager().stage.setScene(SceneType.LoadScene(SceneType.PICKNUMBER));
         } else if (tileType == GameTileType.LOSEMONEY) {
             player.setMoney(playerMoney - 5);
         } else if (tileType == GameTileType.GAINMONEY) {

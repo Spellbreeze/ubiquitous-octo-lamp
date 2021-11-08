@@ -12,7 +12,7 @@ import java.lang.Math;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class NumberPickGameController extends GameBoardView {
+public class NumberPickGameController {
     @FXML
     private TextField playerGuess;
     @FXML
@@ -27,7 +27,7 @@ public class NumberPickGameController extends GameBoardView {
         int min = 1;
         int max = 100;
         number = (int)(Math.random() * (max-min+1)+min);
-        //System.out.println("Number is: " + number);
+        System.out.println("Number is: " + number);
     }
 
     @FXML
@@ -36,6 +36,7 @@ public class NumberPickGameController extends GameBoardView {
     }
     private void checker(Player player) throws IOException {
         int pG = Integer.parseInt(playerGuess.getText());
+
         if (pG == number) {
           player.setMoney(player.getMoney() + 15);
         }
