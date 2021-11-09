@@ -153,16 +153,14 @@ public class GameBoardView {
                 player.move(-1 * num_tiles);
             }
         } else if (tileType == GameTileType.CHANCE) {
-            /*
             Random rand = new Random();
-            int val = rand.nextInt(10);
-            if (playerMoney > 100) {
-                player.setMoney(playerMoney - (val + 10));
+            int val = rand.nextInt(200);
+            if (playerMoney >= 100) {
+                GameManager.GameManager().stage.setScene(SceneType.LoadScene(SceneType.PICKNUMBER));
             } else {
-                player.setMoney(playerMoney + (val + 10));
+                GameManager.GameManager().stage.setScene(SceneType.LoadScene(SceneType.RACESIM));
             }
-             */
-            GameManager.GameManager().stage.setScene(SceneType.LoadScene(SceneType.PICKNUMBER));
+
         } else if (tileType == GameTileType.LOSEMONEY) {
             player.setMoney(playerMoney - 5);
         } else if (tileType == GameTileType.GAINMONEY) {

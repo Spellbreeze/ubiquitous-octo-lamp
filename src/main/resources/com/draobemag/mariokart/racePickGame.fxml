@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.draobemag.mariokart.Controllers.racePickingGame"
+            prefHeight="400.0" prefWidth="600.0">
+    <VBox>
+        <Label fx:id="title" text="Player Name: "/>
+        <HBox>
+            <Button fx:id="horse1" text="Bella" onAction="#selectChar1"/>
+            <Button fx:id="horse2" text="Alex" onAction="#selectChar2"/>
+            <Button fx:id="horse3" text="Lilly" onAction="#selectChar3"/>
+            <Button fx:id="horse4" text="Alexia" onAction="#selectChar4"/>
+        </HBox>
+        <VBox>
+            <HBox>
+                <Label text="Bella: "/>
+                <ProgressBar fx:id="horse1P" visible="false"/>
+            </HBox>
+            <HBox>
+                <Label text="Alex: "/>
+                <ProgressBar fx:id="horse2P" visible="false"/>
+            </HBox>
+            <HBox>
+                <Label text="Lilly: "/>
+                <ProgressBar fx:id="horse3P" visible="false"/>
+            </HBox>
+            <HBox>
+                <Label text="Alexia: "/>
+                <ProgressBar fx:id="horse4P" visible="false"/>
+            </HBox>
+            <Button fx:id="update" text="Next Turn" onAction="#onUpdate" visible="false"/>
+        </VBox>
+        <Label fx:id="Winner"/>
+    </VBox>
+</AnchorPane>
