@@ -1,6 +1,8 @@
 package com.draobemag.mariokart;
 
+import com.draobemag.mariokart.Classes.GameTileManager;
 import com.draobemag.mariokart.Classes.Player;
+import com.draobemag.mariokart.Controllers.GameBoardView;
 import com.draobemag.mariokart.Enums.SceneType;
 import com.draobemag.mariokart.Singletons.GameManager;
 import javafx.application.Platform;
@@ -32,6 +34,7 @@ public class MiniGameTests extends ApplicationTest {
         helloApplication.start(primaryStage);
         gameManager = GameManager.GameManager();
         myStage = primaryStage;
+        GameTileManager.CHANCE_TILE_LOC=1;
     }
 
     private void getToGameScreen()
