@@ -19,7 +19,7 @@ public class GameManager {
     public int startingMoney;
 
     public boolean overrideGame1 = false;
-    public boolean overrideGame2 = true;
+    public boolean overrideGame2 = false;
 
     private GameManager(Stage stage)
     {

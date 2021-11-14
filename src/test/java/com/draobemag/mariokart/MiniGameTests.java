@@ -8,6 +8,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import org.junit.Test;
@@ -203,11 +204,121 @@ public class MiniGameTests extends ApplicationTest {
         thread.start();
         thread.join();
 
-        verifyThat("#GameName", hasText("NumPicker"));
-        for (int i = 0; i < 3; i++) {
-            clickOn("#playerGuess").write("invalid");
-            clickOn("#go");
+        final boolean[] finishedMovt2 = {false};
+        Thread thread2 = new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                Runnable updater = new Runnable() {
+                    @Override
+                    public void run() {
+                        verifyThat("#GameName", hasText("NumPicker"));
+                        Node alertNode = lookup("#playerGuess").query();
+                        if (!((TextField) alertNode).getText().contentEquals("invalid")) {
+                            clickOn("#playerGuess").write("invalid");
+                            clickOn("#go");
+                        }
+                        finishedMovt2[0] = true;
+                    }
+                };
+
+                while (!finishedMovt2[0]) {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ex) {
+                    }
+                    // UI update is run on the Application thread
+                    Platform.runLater(updater);
+                }
+            }
+        });
+//         don't let thread prevent JVM shutdown
+        thread2.setDaemon(true);
+        thread2.start();
+        thread2.join();
+
+        verifyThat("#invalidLabel", hasText("Please pick a valid number between 1 and 100. No decimals!"));
+    }
+
+    @Test
+    public void MiniGame1Play4() throws IOException, InterruptedException {
+        final boolean[] finishedMovt = {false};
+        getToGameScreen4Players();
+        GameManager.GameManager().overrideGame1 = true;
+        Thread thread = new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                Runnable updater = new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            SceneType.getGameBoardView().moveSpriteNumTiles(gameManager.playerList.get(0), 1);
+                            finishedMovt[0] = true;
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                };
+
+                while (!finishedMovt[0]) {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ex) {
+                    }
+
+                    // UI update is run on the Application thread
+                    Platform.runLater(updater);
+                }
+
+            }
+        });
+        // don't let thread prevent JVM shutdown
+        thread.setDaemon(true);
+        thread.start();
+        thread.join();
+
+        boolean next = false;
+        while (!next){
+            Node alertNode2 = lookup("#playerGuess").query();
+            if (alertNode2.isVisible() == false) {
+                next = true;
+            }
+            final boolean[] finishedMovt2 = {false};
+            Thread thread2 = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    Runnable updater = new Runnable() {
+                        @Override
+                        public void run() {
+                            verifyThat("#GameName", hasText("NumPicker"));
+                            Node alertNode5 = lookup("#playerGuess").query();
+                            if ((!((TextField) alertNode5).getText().contains("3")) && alertNode5.isVisible()) {
+                                clickOn("#playerGuess").write("30");
+                            }
+                            if (((TextField) alertNode5).getText().contentEquals("30")) {
+                                clickOn("#go");
+                            }
+                            finishedMovt2[0] = true;
+                        }
+                    };
+
+                    while (!finishedMovt2[0]) {
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException ex) {
+                        }
+                        // UI update is run on the Application thread
+                        Platform.runLater(updater);
+                    }
+                }
+            });
+            //         don't let thread prevent JVM shutdown
+            thread2.setDaemon(true);
+            thread2.start();
+            thread2.join();
         }
+        verifyThat("#go", hasText("Finished"));
     }
 
     @Test

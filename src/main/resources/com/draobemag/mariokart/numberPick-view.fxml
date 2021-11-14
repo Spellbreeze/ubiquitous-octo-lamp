@@ -13,6 +13,7 @@
     <Label fx:id="GameName" text="NumPicker"/>
     <Label text="Pick Number Mini Game" style="-fx-font-style: italic;"/>
     <Label text="Pick a number 1-100"/>
+    <Label fx:id="invalidLabel" text=""/>
     <TextField fx:id="playerGuess" maxWidth="300"/>
-    <Button fx:id="go" text="Go!" onAction="#check"/>
+    <Button fx:id="go" text="Next" onAction="#check"/>
 </VBox>

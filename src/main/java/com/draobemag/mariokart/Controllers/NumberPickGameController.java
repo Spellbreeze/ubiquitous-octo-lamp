@@ -17,13 +17,17 @@ public class NumberPickGameController {
     private TextField playerGuess;
     @FXML
     private Button go;
+    @FXML
+    private Label invalidLabel;
     private int number;
     private  Player currPlayer;
+    private ArrayList<Player> playerTempList = new ArrayList<Player>();
+    private ArrayList<Integer> playerGuesses = new ArrayList<Integer>();
+    int count = 0;
 
     public void initialize() {
-        ArrayList<Player> playerTempList = new ArrayList<Player>();
         playerTempList = GameManager.GetPlayerList();
-        this.currPlayer = playerTempList.get(GameManager.getStartPoint() - 1);
+        this.currPlayer = playerTempList.get(0);
         int min = 1;
         int max = 100;
         number = (int)(Math.random() * (max-min+1)+min);
@@ -33,14 +37,47 @@ public class NumberPickGameController {
     @FXML
     private void check() throws IOException {
         checker(currPlayer);
+        if (go.getText().contentEquals("Finished")) {
+            // Put winner text then quit ig
+            GameManager.GameManager().stage.setScene(SceneType.LoadScene(SceneType.MAIN));
+        } else if (count >= playerTempList.size()) {
+            int best = 200;
+            int bestInd = -1;
+            for (int i = 0; i < playerTempList.size(); i++) {
+                int dist = Math.abs(playerGuesses.get(i) - number);
+                if (dist < best) {
+                    best = dist;
+                    bestInd = i;
+                }
+            }
+            playerTempList.get(bestInd).setMoney(playerTempList.get(bestInd).getMoney() + 15);
+            playerGuess.setVisible(false);
+            go.setText("Finished");
+            invalidLabel.setText("Congratulations player " + playerTempList.get(bestInd).getName() + " your guess was closest.\n" +
+                    "The answer was " + String.valueOf(number));
+        }
     }
     private void checker(Player player) throws IOException {
-        int pG = Integer.parseInt(playerGuess.getText());
-
-        if (pG == number) {
-          player.setMoney(player.getMoney() + 15);
+        if (!isNumeric(playerGuess.getText()) || Integer.parseInt(playerGuess.getText()) > 100 ||  Integer.parseInt(playerGuess.getText()) < 1) {
+            invalidLabel.setText("Please pick a valid number between 1 and 100. No decimals!");
+            return;
         }
-        GameManager.GameManager().stage.setScene(SceneType.LoadScene(SceneType.MAIN));
-        //GameManager.GameManager().stage.close();
+        invalidLabel.setText("");
+        int pG = Integer.parseInt(playerGuess.getText());
+        playerGuesses.add(pG);
+        playerGuess.setText("");
+        count += 1;
     }
+    private boolean isNumeric(String strNum) {
+        if (strNum == null) {
+            return false;
+        }
+        try {
+            int d = Integer.parseInt(strNum);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
+    }
+
 }
