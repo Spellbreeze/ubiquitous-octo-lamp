@@ -9,7 +9,8 @@
 <?import javafx.scene.layout.HBox?>
 <VBox alignment="CENTER" spacing="10.0" xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.draobemag.mariokart.Controllers.NumberPickGameController">
-        
+
+    <Label fx:id="GameName" text="NumPicker"/>
     <Label text="Pick Number Mini Game" style="-fx-font-style: italic;"/>
     <Label text="Pick a number 1-100"/>
     <TextField fx:id="playerGuess" maxWidth="300"/>

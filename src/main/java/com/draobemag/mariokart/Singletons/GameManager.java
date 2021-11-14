@@ -18,6 +18,9 @@ public class GameManager {
     public int startNum;
     public int startingMoney;
 
+    public boolean overrideGame1 = false;
+    public boolean overrideGame2 = true;
+
     private GameManager(Stage stage)
     {
         this.stage = stage;
@@ -43,7 +46,7 @@ public class GameManager {
 
     public static void setStartPoint(int start) {instance.startNum = start;}
 
-    //This method should be revised
+    // This method should be revised
     // Temporary fix to allow GameManager to be called without
     // giving it a stage.
     public static GameManager GameManager()

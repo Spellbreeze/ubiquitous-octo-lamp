@@ -6,12 +6,12 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
+<VBox xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.draobemag.mariokart.Controllers.racePickingGame"
-            prefHeight="400.0" prefWidth="600.0">
+            fx:controller="com.draobemag.mariokart.Controllers.racePickingGame">
     <VBox>
-        <Label fx:id="title" text="Player Name: "/>
+        <Label fx:id="GameName" text="ProgressRacer"/>
+        <Label fx:id="title" text="Choose your horse: "/>
         <HBox>
             <Button fx:id="horse1" text="Bella" onAction="#selectChar1"/>
             <Button fx:id="horse2" text="Alex" onAction="#selectChar2"/>
@@ -20,23 +20,23 @@
         </HBox>
         <VBox>
             <HBox>
-                <Label text="Bella: "/>
+                <Label text="Player1: "/>
                 <ProgressBar fx:id="horse1P" visible="false"/>
             </HBox>
             <HBox>
-                <Label text="Alex: "/>
+                <Label text="Player2: "/>
                 <ProgressBar fx:id="horse2P" visible="false"/>
             </HBox>
             <HBox>
-                <Label text="Lilly: "/>
+                <Label text="Player3: "/>
                 <ProgressBar fx:id="horse3P" visible="false"/>
             </HBox>
             <HBox>
-                <Label text="Alexia: "/>
+                <Label text="Player4: "/>
                 <ProgressBar fx:id="horse4P" visible="false"/>
             </HBox>
             <Button fx:id="update" text="Next Turn" onAction="#onUpdate" visible="false"/>
         </VBox>
         <Label fx:id="Winner"/>
     </VBox>
-</AnchorPane>
+</VBox>

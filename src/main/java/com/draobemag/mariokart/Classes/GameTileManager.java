@@ -17,7 +17,8 @@ import java.util.HashMap;
 public class GameTileManager {
     private Map<Integer, GameTile> gameTileList;
     private static int PAYWALL_TILE_LOC = 5;
-    private static int CHANCE_TILE_LOC = 12;
+    //private static int CHANCE_TILE_LOC = 12;
+    private static int CHANCE_TILE_LOC = 1;
     private static int LOSE_TILE_LOC = 2;
     //private static int MINIGAME_TILE_LOC = 3;
 

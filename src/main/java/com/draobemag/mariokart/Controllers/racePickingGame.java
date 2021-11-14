@@ -56,7 +56,7 @@ public class racePickingGame {
 
     public void initialize() {
         this.playerTempList = GameManager.GetPlayerList();
-        this.currPlayer = this.playerTempList.get(GameManager.getStartPoint() - 1);
+        this.currPlayer = this.playerTempList.get(0);
         this.number = 0;
         title.setText(this.currPlayer.getName() + " select a horse:");
     }

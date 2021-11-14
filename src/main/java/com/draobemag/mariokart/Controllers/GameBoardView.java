@@ -155,7 +155,11 @@ public class GameBoardView {
         } else if (tileType == GameTileType.CHANCE) {
             Random rand = new Random();
             int val = rand.nextInt(200);
-            if (playerMoney >= 100) {
+            if (GameManager.GameManager().overrideGame1 == true) {
+                GameManager.GameManager().stage.setScene(SceneType.LoadScene(SceneType.PICKNUMBER));
+            } else if (GameManager.GameManager().overrideGame2 == true) {
+                GameManager.GameManager().stage.setScene(SceneType.LoadScene(SceneType.RACESIM));
+            } else if (val >= 100) {
                 GameManager.GameManager().stage.setScene(SceneType.LoadScene(SceneType.PICKNUMBER));
             } else {
                 GameManager.GameManager().stage.setScene(SceneType.LoadScene(SceneType.RACESIM));
