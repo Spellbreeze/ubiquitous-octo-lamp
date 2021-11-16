@@ -55,6 +55,7 @@ public class NumberPickGameController {
             go.setText("Finished");
             invalidLabel.setText("Congratulations player " + playerTempList.get(bestInd).getName() + " your guess was closest.\n" +
                     "The answer was " + String.valueOf(number));
+            playerTempList.get(bestInd).addMinigameWin();
         }
     }
     private void checker(Player player) throws IOException {

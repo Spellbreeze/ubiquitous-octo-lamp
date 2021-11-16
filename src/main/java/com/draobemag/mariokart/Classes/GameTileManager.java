@@ -19,7 +19,7 @@ public class GameTileManager {
     private static int PAYWALL_TILE_LOC = 5;
     public static int CHANCE_TILE_LOC = 12;
     private static int LOSE_TILE_LOC = 2;
-    //private static int MINIGAME_TILE_LOC = 3;
+    private static int MINIGAME_TILE_LOC = 3;
 
     public GameTileManager() {
         this.gameTileList = new HashMap<>();
@@ -44,14 +44,12 @@ public class GameTileManager {
                         tile.setFill(javafx.scene.paint.Color.PALEVIOLETRED);
                         tileType = GameTileType.LOSEMONEY;
                     }
-                    /*else if (tilePosition % MINIGAME_TILE_LOC == 0) {
+                    else if (tilePosition % MINIGAME_TILE_LOC == 0) {
                         tile.setFill(Color.ROYALBLUE);
                         tileType = GameTileType.MINIGAME;
 
                     }
-                    */
                     else {
-
                         tile.setFill(javafx.scene.paint.Color.GREENYELLOW);
                         tileType = GameTileType.GAINMONEY;
                     }

@@ -176,7 +176,8 @@ public class racePickingGame {
     }
 
     private void exit(Player player) throws IOException {
-        player.setMoney(player.getMoney() + 30);
+        player.addMoney(30);
+        player.addMinigameWin();
         GameManager.GameManager().stage.setScene(SceneType.LoadScene(SceneType.MAIN));
     }
 }

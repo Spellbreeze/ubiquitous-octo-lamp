@@ -13,16 +13,24 @@ public class Player {
     String name;
     int money;
     private Label player_label;
+    int minigameWins;
+    int paidPaywalls;
 
     public Player(Image sprite, int money, String name) {
         this.sprite = sprite;
         position = 0;
         this.money = money;
         this.name = name;
+        minigameWins = 0;
+        paidPaywalls = 0;
     }
 
     public Image getSprite() {
         return this.sprite;
+    }
+    public void setSprite(int sprite_ind) {
+        //must be between 1 & 4
+        this.sprite = new Image(GlobalDefine.sprites.get(sprite_ind - 1), 40, 40, false, false);
     }
 
     public int getPosition() {
@@ -31,23 +39,6 @@ public class Player {
 
     public void setPosition(int position) {
         this.position = position;
-    }
-
-
-    public void updateMoney() {
-        if (position % 12 == 0) {
-            Random rand = new Random();
-            int val = rand.nextInt(10);
-            if (this.money > 100) {
-                this.money -= val + 10;
-            } else {
-                this.money += val + 10;
-            }
-        } else if (position % 2 == 0) {
-            this.money -= 5;
-        } else {
-            this.money += 5;
-        }
     }
 
     // Returns true if the game is over, false otherwise
@@ -84,6 +75,33 @@ public class Player {
     }
     public void setMoney(int money)
     {
-        this.money = money;
+        this.money = (money < 0) ? 0 : money;
+    }
+    public void addMoney(int money) {
+        this.money = (this.money + money < 0) ? 0 : this.money + money;
+    }
+
+    public int getMinigameWins() {
+        return minigameWins;
+    }
+
+    public void addMinigameWin() {
+        minigameWins++;
+    }
+    public void setMinigameWins(int minigameWins)
+    {
+        this.minigameWins = minigameWins;
+    }
+
+    public void addPaidPaywall() {
+        paidPaywalls++;
+    }
+
+    public int getPaidPaywalls() {
+        return paidPaywalls;
+    }
+
+    public void setPaidPaywalls(int paidPaywalls) {
+        this.paidPaywalls = paidPaywalls;
     }
 }

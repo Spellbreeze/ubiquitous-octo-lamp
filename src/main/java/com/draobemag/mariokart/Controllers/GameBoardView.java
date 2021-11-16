@@ -113,6 +113,7 @@ public class GameBoardView {
                 }
             }
         }
+        updatePlayerTiles();
     }
 
     public void moveSpriteNumTiles(Player player, int num_tiles) throws IOException {
@@ -140,6 +141,7 @@ public class GameBoardView {
 
                 if (result.get() == ButtonType.YES) {
                     player.setMoney(playerMoney - GlobalDefine.paywallTax);
+                    player.addPaidPaywall();
                     gameTileManager.setGameTileType(player.getPosition(), GameTileType.PAIDWALL);
                 } else {
                     player.move(-1 * num_tiles);
@@ -152,7 +154,7 @@ public class GameBoardView {
                 java.util.Optional<ButtonType> result = alert.showAndWait();
                 player.move(-1 * num_tiles);
             }
-        } else if (tileType == GameTileType.CHANCE) {
+        } else if (tileType == GameTileType.MINIGAME) {
             Random rand = new Random();
             int val = rand.nextInt(200);
             if (GameManager.GameManager().overrideGame1 == true) {
@@ -164,7 +166,50 @@ public class GameBoardView {
             } else {
                 GameManager.GameManager().stage.setScene(SceneType.LoadScene(SceneType.RACESIM));
             }
+        } else if (tileType == GameTileType.CHANCE) {
+            Alert chanceAlert = new Alert(Alert.AlertType.INFORMATION);
+            chanceAlert.setHeaderText("Chance Tile");
 
+            Random rand = new Random();
+            int val = (int) (Math.random() * 5);
+            if (val == 0) {
+                //add lots of money
+                player.addMoney(25);
+                chanceAlert.setContentText(String.format(
+                        "You do a flip and speed up."));
+            } else if (val == 1) {
+                //remove lots of money
+                player.addMoney(-25);
+                chanceAlert.setContentText(String.format(
+                        "Your Kart slips on a banana peel and slows down."));
+            } else if (val == 2) {
+                //move forward
+                if (player.move(5)) {
+                    //checking if game has been won
+                    GameManager.GameManager().stage.setScene(SceneType.LoadScene(SceneType.WINNER));
+                    //Bad code smell: repeated code
+                    return;
+                }
+                chanceAlert.setContentText(String.format(
+                        "You found a shortcut!"));
+            } else if (val == 3) {
+                //change avatar
+                player.setSprite((int) (Math.random() * 4) + 1);
+                chanceAlert.setContentText(String.format(
+                        "Your Kart suddenly changes form."));
+            } else {
+                // freaky friday- i.e. swap positions with other player
+                int swapIndex = (currInd +
+                        (int) ((GameManager.GetNumPlayers() - 1)
+                        * Math.random()) + 1) % GameManager.GetNumPlayers();
+                int tempPosition = playerTempList.get(swapIndex).getPosition();
+                playerTempList.get(swapIndex).setPosition(player.getPosition());
+                player.setPosition(tempPosition);
+                chanceAlert.setContentText(String.format(
+                        "You swapped places with another Kart."));
+            }
+
+            chanceAlert.showAndWait();
         } else if (tileType == GameTileType.LOSEMONEY) {
             player.setMoney(playerMoney - 5);
         } else if (tileType == GameTileType.GAINMONEY) {
@@ -182,7 +227,13 @@ public class GameBoardView {
             this.currInd += 1;
             this.currPlayer = playerTempList.get(this.currInd);
         }
-        for (Player p: playerTempList) {
+
+        updatePlayerTiles();
+    }
+
+    private void updatePlayerTiles()
+    {
+        for (Player p: GameManager.GameManager().GetPlayerList()) {
             gameTileManager.updatePlayerTile(p);
         }
     }

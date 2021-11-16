@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class WinnerController {
+
     @FXML
     private Label player1Location;
     @FXML
@@ -31,6 +32,13 @@ public class WinnerController {
     private Button close;
     @FXML
     private Button playAgain;
+
+    @FXML
+    private Label minigameWinner;
+    @FXML
+    private Label moneyWinner;
+    @FXML
+    private Label generousWinner;
 
 
 
@@ -67,9 +75,30 @@ public class WinnerController {
             player4Location.setVisible(true);
             p4Location.setText(String.valueOf(rankedPlayers.get(3).getPosition()));
             p4Location.setVisible(true);
-
         }
+
+        Player miniWin = null, moneyWin = null, generousWin = null;
+        for (Player player : GameManager.GetPlayerList())
+        {
+            if (miniWin == null) miniWin = player;
+            if (moneyWin == null) moneyWin = player;
+            if (generousWin == null) generousWin = player;
+
+            if (player.getMinigameWins() > miniWin.getMinigameWins())
+                miniWin = player;
+            if (player.getMoney() > miniWin.getMoney()) moneyWin = player;
+            if (player.getPaidPaywalls() > miniWin.getPaidPaywalls())
+                generousWin = player;
+        }
+        minigameWinner.setText("The Best Minigame Winner: "
+                + miniWin.getName());
+        moneyWinner.setText("The Most Speediest Winner: "
+                + moneyWin.getName());
+        generousWinner.setText("The Most Generous Paywall Payer: "
+                + generousWin.getName());
     }
+
+
     @FXML
     protected void closeGame() {
         System.exit(0);

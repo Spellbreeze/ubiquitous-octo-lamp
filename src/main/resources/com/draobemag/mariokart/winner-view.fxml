@@ -26,6 +26,11 @@
         <Label fx:id="player4Location" visible="false"/>
         <Label fx:id="p4Location" visible="false"/>
     </HBox>
+    <VBox>
+        <Label fx:id="minigameWinner"/>
+        <Label fx:id="moneyWinner"/>
+        <Label fx:id="generousWinner"/>
+    </VBox>
     <HBox alignment="CENTER" spacing="10.0">
         <Button fx:id="close" text="Close" onAction="#closeGame"/>
         <Button fx:id="playAgain" text="Play Again!" onAction="#playAgain"/>
