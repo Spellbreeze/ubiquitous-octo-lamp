@@ -20,6 +20,11 @@ public class GameManager {
 
     public boolean overrideGame1 = false;
     public boolean overrideGame2 = false;
+    public boolean overrideChanceTile1 = false;
+    public boolean overrideChanceTile2 = false;
+    public boolean overrideChanceTile3 = false;
+    public boolean overrideChanceTile4 = false;
+    public boolean overrideChanceTile5 = false;
 
     private GameManager(Stage stage)
     {

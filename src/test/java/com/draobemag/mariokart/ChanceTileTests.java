@@ -7,10 +7,7 @@ import com.draobemag.mariokart.Enums.SceneType;
 import com.draobemag.mariokart.Singletons.GameManager;
 import javafx.application.Platform;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import org.junit.Test;
@@ -20,10 +17,11 @@ import org.testfx.matcher.base.NodeMatchers;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import static org.junit.Assert.assertNotNull;
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.matcher.control.LabeledMatchers.hasText;
 
-public class MiniGameTests extends ApplicationTest {
+public class ChanceTileTests extends ApplicationTest {
 
     private Stage myStage;
     private GameManager gameManager;
@@ -34,7 +32,8 @@ public class MiniGameTests extends ApplicationTest {
         helloApplication.start(primaryStage);
         gameManager = GameManager.GameManager();
         myStage = primaryStage;
-        GameTileManager.MINIGAME_TILE_LOC = 1;
+        GameTileManager.CHANCE_TILE_LOC = 1;
+        //GameTileManager.MINIGAME_TILE_LOC = 1;
     }
 
     private void getToGameScreen()
@@ -84,10 +83,10 @@ public class MiniGameTests extends ApplicationTest {
     }
 
     @Test
-    public void MiniGame1Opens() throws IOException, InterruptedException {
+    public void ChanceTile1Alert() throws IOException, InterruptedException {
         final boolean[] finishedMovt = {false};
         getToGameScreen();
-        GameManager.GameManager().overrideGame1 = true;
+        GameManager.GameManager().overrideChanceTile1 = true;
         Thread thread = new Thread(new Runnable() {
 
             @Override
@@ -96,9 +95,12 @@ public class MiniGameTests extends ApplicationTest {
                     @Override
                     public void run() {
                         try {
+                            System.out.println("above core logic");
                             SceneType.getGameBoardView().moveSpriteNumTiles(gameManager.playerList.get(0),1);
+                            System.out.println("below core logic");
                             finishedMovt[0] = true;
                         } catch (IOException e) {
+                            System.out.println("except");
                             e.printStackTrace();
                         }
                     }
@@ -106,6 +108,7 @@ public class MiniGameTests extends ApplicationTest {
 
                 while (!finishedMovt[0]) {
                     try {
+                        System.out.println("in the lock loop");
                         Thread.sleep(1000);
                     } catch (InterruptedException ex) {
                     }
@@ -122,16 +125,21 @@ public class MiniGameTests extends ApplicationTest {
 
 
         thread.join();
-        verifyThat("#GameName", hasText("NumPicker"));
-        clickOn("#playerGuess").write("20");
-        clickOn("#go");
+
+        clickOn("OK");
+
+        Node alertNode = lookup(".dialog-pane").query();
+        assertNotNull(alertNode);
+
+        String alertText = ((DialogPane) alertNode).getContentText();
+        assert("You do a flip and speed up" == alertText);
     }
 
     @Test
     public void MiniGame2Opens() throws IOException, InterruptedException {
         final boolean[] finishedMovt = {false};
         getToGameScreen();
-        GameManager.GameManager().overrideGame2 = true;
+        GameManager.GameManager().overrideChanceTile2 = true;
         Thread thread = new Thread(new Runnable() {
 
             @Override

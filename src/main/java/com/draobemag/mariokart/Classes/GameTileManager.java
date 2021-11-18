@@ -19,7 +19,7 @@ public class GameTileManager {
     private static int PAYWALL_TILE_LOC = 5;
     public static int CHANCE_TILE_LOC = 12;
     private static int LOSE_TILE_LOC = 2;
-    private static int MINIGAME_TILE_LOC = 3;
+    public static int MINIGAME_TILE_LOC = 3;
 
     public GameTileManager() {
         this.gameTileList = new HashMap<>();

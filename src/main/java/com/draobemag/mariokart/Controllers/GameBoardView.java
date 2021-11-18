@@ -117,6 +117,7 @@ public class GameBoardView {
     }
 
     public void moveSpriteNumTiles(Player player, int num_tiles) throws IOException {
+        System.out.println("in sprite move");
         // TODO: def need to refactor this function
         ArrayList<Player> playerTempList = GameManager.GameManager().GetPlayerList();
         int oldPosition = player.getPosition();
@@ -172,7 +173,42 @@ public class GameBoardView {
 
             Random rand = new Random();
             int val = (int) (Math.random() * 5);
-            if (val == 0) {
+            if (GameManager.GameManager().overrideChanceTile1 == true) {
+                //add lots of money
+                player.addMoney(25);
+                chanceAlert.setContentText(String.format(
+                        "You do a flip and speed up."));
+            } else if (GameManager.GameManager().overrideChanceTile2) {
+                //remove lots of money
+                player.addMoney(-25);
+                chanceAlert.setContentText(String.format(
+                        "Your Kart slips on a banana peel and slows down."));
+            } else if (GameManager.GameManager().overrideChanceTile3) {
+                //move forward
+                if (player.move(5)) {
+                    //checking if game has been won
+                    GameManager.GameManager().stage.setScene(SceneType.LoadScene(SceneType.WINNER));
+                    //Bad code smell: repeated code
+                    return;
+                }
+                chanceAlert.setContentText(String.format(
+                        "You found a shortcut!"));
+            } else if (GameManager.GameManager().overrideChanceTile4) {
+                //change avatar
+                player.setSprite((int) (Math.random() * 4) + 1);
+                chanceAlert.setContentText(String.format(
+                        "Your Kart suddenly changes form."));
+            } else if (GameManager.GameManager().overrideChanceTile5) {
+                // freaky friday- i.e. swap positions with other player
+                int swapIndex = (currInd +
+                        (int) ((GameManager.GetNumPlayers() - 1)
+                                * Math.random()) + 1) % GameManager.GetNumPlayers();
+                int tempPosition = playerTempList.get(swapIndex).getPosition();
+                playerTempList.get(swapIndex).setPosition(player.getPosition());
+                player.setPosition(tempPosition);
+                chanceAlert.setContentText(String.format(
+                        "You swapped places with another Kart."));
+            } else if (val == 0) {
                 //add lots of money
                 player.addMoney(25);
                 chanceAlert.setContentText(String.format(
