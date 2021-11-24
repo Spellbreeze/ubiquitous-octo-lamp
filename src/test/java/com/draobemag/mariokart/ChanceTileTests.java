@@ -3,6 +3,7 @@ package com.draobemag.mariokart;
 import com.draobemag.mariokart.Classes.GameTileManager;
 import com.draobemag.mariokart.Classes.Player;
 import com.draobemag.mariokart.Controllers.GameBoardView;
+import com.draobemag.mariokart.Enums.GameTileType;
 import com.draobemag.mariokart.Enums.SceneType;
 import com.draobemag.mariokart.Singletons.GameManager;
 import javafx.application.Platform;
@@ -17,6 +18,7 @@ import org.testfx.matcher.base.NodeMatchers;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.matcher.control.LabeledMatchers.hasText;
@@ -97,6 +99,7 @@ public class ChanceTileTests extends ApplicationTest {
                         try {
                             System.out.println("above core logic");
                             SceneType.getGameBoardView().moveSpriteNumTiles(gameManager.playerList.get(0),1);
+                            //SceneType.getGameBoardView().moveSpriteNumTilesChances(gameManager.playerList.get(0), 1, GameTileType.CHANCE);
                             System.out.println("below core logic");
                             finishedMovt[0] = true;
                         } catch (IOException e) {
@@ -123,16 +126,13 @@ public class ChanceTileTests extends ApplicationTest {
         thread.setDaemon(true);
         thread.start();
 
-
         thread.join();
-
-        clickOn("OK");
-
         Node alertNode = lookup(".dialog-pane").query();
         assertNotNull(alertNode);
-
         String alertText = ((DialogPane) alertNode).getContentText();
-        assert("You do a flip and speed up" == alertText);
+        //assertEquals(alertText, ((DialogPane) alertNode).getContentText());
+        assert("You do a flip and speed up.".equals(alertText));
+        clickOn("OK");
     }
 
     @Test

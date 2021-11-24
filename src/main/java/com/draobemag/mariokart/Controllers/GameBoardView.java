@@ -1,12 +1,14 @@
 package com.draobemag.mariokart.Controllers;
 
 
+import com.draobemag.mariokart.Classes.GameTile;
 import com.draobemag.mariokart.Classes.Player;
 import com.draobemag.mariokart.Classes.GameTileManager;
 import com.draobemag.mariokart.Enums.SceneType;
 import com.draobemag.mariokart.GlobalDefine;
 import com.draobemag.mariokart.Enums.GameTileType;
 import com.draobemag.mariokart.Singletons.GameManager;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -20,10 +22,8 @@ import javafx.scene.shape.Rectangle;
 
 import java.awt.*;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 import java.util.List;
-import java.util.Random;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -40,6 +40,8 @@ public class GameBoardView {
     private Button moveButton;
     @FXML
     private Button moveFive;
+    @FXML
+    private Button moveTwelve;
 
     private Player currPlayer;
 
@@ -66,7 +68,10 @@ public class GameBoardView {
 
     public Player testMakePaywallButtonVisible() {
         moveFive.setVisible(true);
-
+        return currPlayer;
+    }
+    public Player testChanceButtonVisible() {
+        moveTwelve.setVisible(true);
         return currPlayer;
     }
 
@@ -129,6 +134,7 @@ public class GameBoardView {
         gameTileManager.updateNonPlayerTile(oldPosition);
         GameTileType tileType =  gameTileManager.getGameTileType(player.getPosition());
         int playerMoney = player.getMoney();
+
         if (tileType == GameTileType.UNPAIDWALL) {
             if (playerMoney >= GlobalDefine.paywallTax) {
                 Alert alert =
@@ -158,9 +164,9 @@ public class GameBoardView {
         } else if (tileType == GameTileType.MINIGAME) {
             Random rand = new Random();
             int val = rand.nextInt(200);
-            if (GameManager.GameManager().overrideGame1 == true) {
+            if (GameManager.GameManager().overrideGame1) {
                 GameManager.GameManager().stage.setScene(SceneType.LoadScene(SceneType.PICKNUMBER));
-            } else if (GameManager.GameManager().overrideGame2 == true) {
+            } else if (GameManager.GameManager().overrideGame2) {
                 GameManager.GameManager().stage.setScene(SceneType.LoadScene(SceneType.RACESIM));
             } else if (val >= 100) {
                 GameManager.GameManager().stage.setScene(SceneType.LoadScene(SceneType.PICKNUMBER));
@@ -170,15 +176,20 @@ public class GameBoardView {
         } else if (tileType == GameTileType.CHANCE) {
             Alert chanceAlert = new Alert(Alert.AlertType.INFORMATION);
             chanceAlert.setHeaderText("Chance Tile");
+            chanceAlert.setTitle("CHANCE!");
 
-            Random rand = new Random();
+           // Random rand = new Random();
+
             int val = (int) (Math.random() * 5);
-            if (GameManager.GameManager().overrideChanceTile1 == true) {
+
+            if (GameManager.GameManager().overrideChanceTile1) {
                 //add lots of money
+                //System.out.println("WE'VE ENTERED THE OVERRIDE CHANCE TILE 1 LOGIC ---------> " + GameManager.GameManager().overrideChanceTile1);
                 player.addMoney(25);
                 chanceAlert.setContentText(String.format(
                         "You do a flip and speed up."));
             } else if (GameManager.GameManager().overrideChanceTile2) {
+                //System.out.println("WE'VE ENTERED THE OVERRIDE CHANCE TILE 2 LOGIC ---------> " + GameManager.GameManager().overrideChanceTile1);
                 //remove lots of money
                 player.addMoney(-25);
                 chanceAlert.setContentText(String.format(
@@ -244,8 +255,8 @@ public class GameBoardView {
                 chanceAlert.setContentText(String.format(
                         "You swapped places with another Kart."));
             }
-
             chanceAlert.showAndWait();
+
         } else if (tileType == GameTileType.LOSEMONEY) {
             player.setMoney(playerMoney - 5);
         } else if (tileType == GameTileType.GAINMONEY) {
@@ -311,6 +322,9 @@ public class GameBoardView {
 
     public void movePlayer5(ActionEvent actionEvent) throws IOException {
         moveSpriteNumTiles(currPlayer, 5);
+    }
+    public void movePlayer12(ActionEvent actionEvent) throws IOException {
+        moveSpriteNumTiles(currPlayer, 12);
     }
 }
 

@@ -170,10 +170,10 @@ public class GameEndTests extends ApplicationTest {
         // don't let thread prevent JVM shutdown
         thread.setDaemon(true);
         thread.start();
-
         thread.join();
 
         verifyThat("#player1Location", hasText("1. test1 location:"));
         verifyThat("#player2Location", hasText("2. test2 location:"));
+
     }
 }
