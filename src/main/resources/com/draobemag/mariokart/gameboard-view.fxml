@@ -26,7 +26,7 @@
         </VBox>
         <Button fx:id="moveButton" text="Roll the dice!" onAction="#movePlayer"/>
         <Button fx:id="moveFive" text="Move5Debug" onAction="#movePlayer5" visible="false"/>
-        <Button fx:id="moveTwelve" text="ChanceDebug" onAction="#movePlayer12" visible="false"/>
+        <Button fx:id="moveTwelve" text="Chance" onAction="#movePlayer12" visible="false"/>
     </HBox>
 
     <Label fx:id="diceRoll"/>

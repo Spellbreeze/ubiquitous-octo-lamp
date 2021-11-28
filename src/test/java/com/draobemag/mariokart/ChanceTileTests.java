@@ -34,8 +34,7 @@ public class ChanceTileTests extends ApplicationTest {
         helloApplication.start(primaryStage);
         gameManager = GameManager.GameManager();
         myStage = primaryStage;
-        GameTileManager.CHANCE_TILE_LOC = 1;
-        //GameTileManager.MINIGAME_TILE_LOC = 1;
+        //GameTileManager.CHANCE_TILE_LOC = 2;
     }
 
     private void getToGameScreen()
@@ -57,61 +56,25 @@ public class ChanceTileTests extends ApplicationTest {
         clickOn("#start");
     }
 
-    private void getToGameScreen4Players()
-    {
-        clickOn("#initStart");
-        GameManager.GameManager().refresh();
-        clickOn("#toggle4");
-        clickOn("#speedToggle1");
-        clickOn("#playerConfig");
-
-        clickOn("#playerName").write("test1");
-        clickOn("#sprite1");
-        clickOn("#nextOrGo");
-
-        clickOn("#playerName").write("test2");
-        clickOn("#sprite2");
-        clickOn("#nextOrGo");
-
-        clickOn("#playerName").write("test3");
-        clickOn("#sprite3");
-        clickOn("#nextOrGo");
-
-        clickOn("#playerName").write("test4");
-        clickOn("#sprite4");
-        clickOn("#nextOrGo");
-
-        clickOn("#start");
-    }
-
     @Test
     public void ChanceTile1Alert() throws IOException, InterruptedException {
         final boolean[] finishedMovt = {false};
+        final Player[] currPlayer = new Player[1];
         getToGameScreen();
         GameManager.GameManager().overrideChanceTile1 = true;
         Thread thread = new Thread(new Runnable() {
-
             @Override
             public void run() {
                 Runnable updater = new Runnable() {
                     @Override
                     public void run() {
-                        try {
-                            System.out.println("above core logic");
-                            SceneType.getGameBoardView().moveSpriteNumTiles(gameManager.playerList.get(0),1);
-                            //SceneType.getGameBoardView().moveSpriteNumTilesChances(gameManager.playerList.get(0), 1, GameTileType.CHANCE);
-                            System.out.println("below core logic");
-                            finishedMovt[0] = true;
-                        } catch (IOException e) {
-                            System.out.println("except");
-                            e.printStackTrace();
-                        }
+                        currPlayer[0] = SceneType.getGameBoardView().testChanceButtonVisible();
+                        finishedMovt[0] = true;
                     }
                 };
 
                 while (!finishedMovt[0]) {
                     try {
-                        System.out.println("in the lock loop");
                         Thread.sleep(1000);
                     } catch (InterruptedException ex) {
                     }
@@ -127,32 +90,33 @@ public class ChanceTileTests extends ApplicationTest {
         thread.start();
 
         thread.join();
+
+        clickOn("#moveTwelve");
+        //clickOn("OK");
+        // Get the Node of the Alert
         Node alertNode = lookup(".dialog-pane").query();
         assertNotNull(alertNode);
         String alertText = ((DialogPane) alertNode).getContentText();
         //assertEquals(alertText, ((DialogPane) alertNode).getContentText());
         assert("You do a flip and speed up.".equals(alertText));
         clickOn("OK");
+
     }
 
     @Test
-    public void MiniGame2Opens() throws IOException, InterruptedException {
+    public void ChanceTile2Alert() throws IOException, InterruptedException {
         final boolean[] finishedMovt = {false};
+        final Player[] currPlayer = new Player[1];
         getToGameScreen();
         GameManager.GameManager().overrideChanceTile2 = true;
         Thread thread = new Thread(new Runnable() {
-
             @Override
             public void run() {
                 Runnable updater = new Runnable() {
                     @Override
                     public void run() {
-                        try {
-                            SceneType.getGameBoardView().moveSpriteNumTiles(gameManager.playerList.get(0),1);
-                            finishedMovt[0] = true;
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                        currPlayer[0] = SceneType.getGameBoardView().testChanceButtonVisible();
+                        finishedMovt[0] = true;
                     }
                 };
 
@@ -172,29 +136,33 @@ public class ChanceTileTests extends ApplicationTest {
         thread.setDaemon(true);
         thread.start();
 
-
         thread.join();
-        verifyThat("#GameName", hasText("ProgressRacer"));
+
+        clickOn("#moveTwelve");
+        //clickOn("OK");
+        // Get the Node of the Alert
+        Node alertNode = lookup(".dialog-pane").query();
+        assertNotNull(alertNode);
+        String alertText = ((DialogPane) alertNode).getContentText();
+        //assertEquals(alertText, ((DialogPane) alertNode).getContentText());
+        assert("Your Kart slips on a banana peel and slows down.".equals(alertText));
+        clickOn("OK");
+
     }
-
     @Test
-    public void MiniGame1InvalidInput() throws IOException, InterruptedException {
+    public void ChanceTile3Alert() throws IOException, InterruptedException {
         final boolean[] finishedMovt = {false};
+        final Player[] currPlayer = new Player[1];
         getToGameScreen();
-        GameManager.GameManager().overrideGame1 = true;
+        GameManager.GameManager().overrideChanceTile3 = true;
         Thread thread = new Thread(new Runnable() {
-
             @Override
             public void run() {
                 Runnable updater = new Runnable() {
                     @Override
                     public void run() {
-                        try {
-                            SceneType.getGameBoardView().moveSpriteNumTiles(gameManager.playerList.get(0),1);
-                            finishedMovt[0] = true;
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                        currPlayer[0] = SceneType.getGameBoardView().testChanceButtonVisible();
+                        finishedMovt[0] = true;
                     }
                 };
 
@@ -213,62 +181,34 @@ public class ChanceTileTests extends ApplicationTest {
         // don't let thread prevent JVM shutdown
         thread.setDaemon(true);
         thread.start();
+
         thread.join();
 
-        final boolean[] finishedMovt2 = {false};
-        Thread thread2 = new Thread(new Runnable() {
+        clickOn("#moveTwelve");
+        //clickOn("OK");
+        // Get the Node of the Alert
+        Node alertNode = lookup(".dialog-pane").query();
+        assertNotNull(alertNode);
+        String alertText = ((DialogPane) alertNode).getContentText();
+        //assertEquals(alertText, ((DialogPane) alertNode).getContentText());
+        assert("You found a shortcut!".equals(alertText));
+        clickOn("OK");
 
-            @Override
-            public void run() {
-                Runnable updater = new Runnable() {
-                    @Override
-                    public void run() {
-                        verifyThat("#GameName", hasText("NumPicker"));
-                        Node alertNode = lookup("#playerGuess").query();
-                        if (!((TextField) alertNode).getText().contentEquals("invalid")) {
-                            clickOn("#playerGuess").write("invalid");
-                            clickOn("#go");
-                        }
-                        finishedMovt2[0] = true;
-                    }
-                };
-
-                while (!finishedMovt2[0]) {
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException ex) {
-                    }
-                    // UI update is run on the Application thread
-                    Platform.runLater(updater);
-                }
-            }
-        });
-//         don't let thread prevent JVM shutdown
-        thread2.setDaemon(true);
-        thread2.start();
-        thread2.join();
-
-        verifyThat("#invalidLabel", hasText("Please pick a valid number between 1 and 100. No decimals!"));
     }
-
     @Test
-    public void MiniGame1Play4() throws IOException, InterruptedException {
+    public void ChanceTile4Alert() throws IOException, InterruptedException {
         final boolean[] finishedMovt = {false};
-        getToGameScreen4Players();
-        GameManager.GameManager().overrideGame1 = true;
+        final Player[] currPlayer = new Player[1];
+        getToGameScreen();
+        GameManager.GameManager().overrideChanceTile4 = true;
         Thread thread = new Thread(new Runnable() {
-
             @Override
             public void run() {
                 Runnable updater = new Runnable() {
                     @Override
                     public void run() {
-                        try {
-                            SceneType.getGameBoardView().moveSpriteNumTiles(gameManager.playerList.get(0), 1);
-                            finishedMovt[0] = true;
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                        currPlayer[0] = SceneType.getGameBoardView().testChanceButtonVisible();
+                        finishedMovt[0] = true;
                     }
                 };
 
@@ -287,64 +227,177 @@ public class ChanceTileTests extends ApplicationTest {
         // don't let thread prevent JVM shutdown
         thread.setDaemon(true);
         thread.start();
+
         thread.join();
 
-        boolean next = false;
-        while (!next){
-            Node alertNode2 = lookup("#playerGuess").query();
-            if (alertNode2.isVisible() == false) {
-                next = true;
-            }
-            final boolean[] finishedMovt2 = {false};
-            Thread thread2 = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    Runnable updater = new Runnable() {
-                        @Override
-                        public void run() {
-                            verifyThat("#GameName", hasText("NumPicker"));
-                            Node alertNode5 = lookup("#playerGuess").query();
-                            if ((!((TextField) alertNode5).getText().contains("3")) && alertNode5.isVisible()) {
-                                clickOn("#playerGuess").write("30");
-                            }
-                            if (((TextField) alertNode5).getText().contentEquals("30")) {
-                                clickOn("#go");
-                            }
-                            finishedMovt2[0] = true;
-                        }
-                    };
-
-                    while (!finishedMovt2[0]) {
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException ex) {
-                        }
-                        // UI update is run on the Application thread
-                        Platform.runLater(updater);
+        clickOn("#moveTwelve");
+        //clickOn("OK");
+        // Get the Node of the Alert
+        Node alertNode = lookup(".dialog-pane").query();
+        assertNotNull(alertNode);
+        String alertText = ((DialogPane) alertNode).getContentText();
+        //assertEquals(alertText, ((DialogPane) alertNode).getContentText());
+        assert("Your Kart suddenly changes form.".equals(alertText));
+        clickOn("OK");
+    }
+    @Test
+    public void ChanceTile5Alert() throws IOException, InterruptedException {
+        final boolean[] finishedMovt = {false};
+        final Player[] currPlayer = new Player[1];
+        getToGameScreen();
+        GameManager.GameManager().overrideChanceTile5 = true;
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Runnable updater = new Runnable() {
+                    @Override
+                    public void run() {
+                        currPlayer[0] = SceneType.getGameBoardView().testChanceButtonVisible();
+                        finishedMovt[0] = true;
                     }
+                };
+
+                while (!finishedMovt[0]) {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ex) {
+                    }
+
+                    // UI update is run on the Application thread
+                    Platform.runLater(updater);
                 }
-            });
-            //         don't let thread prevent JVM shutdown
-            thread2.setDaemon(true);
-            thread2.start();
-            thread2.join();
-        }
-        verifyThat("#go", hasText("Finished"));
+
+            }
+        });
+        // don't let thread prevent JVM shutdown
+        thread.setDaemon(true);
+        thread.start();
+
+        thread.join();
+
+        clickOn("#moveTwelve");
+        //clickOn("OK");
+        // Get the Node of the Alert
+        Node alertNode = lookup(".dialog-pane").query();
+        assertNotNull(alertNode);
+        String alertText = ((DialogPane) alertNode).getContentText();
+        //assertEquals(alertText, ((DialogPane) alertNode).getContentText());
+        assert("You swapped places with another Kart.".equals(alertText));
+        clickOn("OK");
+
     }
 
     @Test
-    public void MiniGame2UpdateCheck() throws IOException, InterruptedException {
+    public void ChanceTile1Effect() throws IOException, InterruptedException {
+        final boolean[] finishedMovt = {false};
+        final Player[] currPlayer = new Player[1];
+        getToGameScreen();
+        GameManager.GameManager().overrideChanceTile1 = true;
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Runnable updater = new Runnable() {
+                    @Override
+                    public void run() {
+                        currPlayer[0] = SceneType.getGameBoardView().testChanceButtonVisible();
+                        finishedMovt[0] = true;
+                    }
+                };
+
+                while (!finishedMovt[0]) {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ex) {
+                    }
+
+                    // UI update is run on the Application thread
+                    Platform.runLater(updater);
+                }
+
+            }
+        });
+        // don't let thread prevent JVM shutdown
+        thread.setDaemon(true);
+        thread.start();
+
+        thread.join();
+        int prev_money = currPlayer[0].getMoney();
+        clickOn("#moveTwelve");
+        //clickOn("OK");
+        // Get the Node of the Alert
+        Node alertNode = lookup(".dialog-pane").query();
+        assertNotNull(alertNode);
+        String alertText = ((DialogPane) alertNode).getContentText();
+        //assertEquals(alertText, ((DialogPane) alertNode).getContentText());
+        //assert("You do a flip and speed up.".equals(alertText));
+        clickOn("OK");
+        int curr_money = currPlayer[0].getMoney();
+        assert(prev_money + 25 == curr_money);
+    }
+
+    @Test
+    public void ChanceTile2Effect() throws IOException, InterruptedException {
+        final boolean[] finishedMovt = {false};
+        final Player[] currPlayer = new Player[1];
+        getToGameScreen();
+        GameManager.GameManager().overrideChanceTile2 = true;
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Runnable updater = new Runnable() {
+                    @Override
+                    public void run() {
+                        currPlayer[0] = SceneType.getGameBoardView().testChanceButtonVisible();
+                        finishedMovt[0] = true;
+                    }
+                };
+
+                while (!finishedMovt[0]) {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ex) {
+                    }
+
+                    // UI update is run on the Application thread
+                    Platform.runLater(updater);
+                }
+
+            }
+        });
+        // don't let thread prevent JVM shutdown
+        thread.setDaemon(true);
+        thread.start();
+
+        thread.join();
+        int prev_money = currPlayer[0].getMoney();
+        //System.out.println(prev_money);
+        clickOn("#moveTwelve");
+        //clickOn("OK");
+        // Get the Node of the Alert
+        Node alertNode = lookup(".dialog-pane").query();
+        assertNotNull(alertNode);
+        String alertText = ((DialogPane) alertNode).getContentText();
+        //assertEquals(alertText, ((DialogPane) alertNode).getContentText());
+        //assert("Your Kart slips on a banana peel and slows down.".equals(alertText));
+        clickOn("OK");
+        int curr_money = currPlayer[0].getMoney();
+        //System.out.println(curr_money);
+        assert(prev_money - 25 == curr_money);
+    }
+
+    @Test
+    public void AwardsCheck() throws IOException, InterruptedException {
         final boolean[] finishedMovt = {false};
         getToGameScreen();
-        GameManager.GameManager().overrideGame2 = true;
         Thread thread = new Thread(new Runnable() {
+
             @Override
             public void run() {
                 Runnable updater = new Runnable() {
                     @Override
                     public void run() {
                         try {
-                            SceneType.getGameBoardView().moveSpriteNumTiles(gameManager.playerList.get(0),1);
+                            SceneType.getGameBoardView().moveSpriteNumTiles(gameManager.playerList.get(0),63);
                             finishedMovt[0] = true;
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -357,469 +410,19 @@ public class ChanceTileTests extends ApplicationTest {
                         Thread.sleep(1000);
                     } catch (InterruptedException ex) {
                     }
+
                     // UI update is run on the Application thread
                     Platform.runLater(updater);
                 }
-
             }
         });
-//         don't let thread prevent JVM shutdown
+        // don't let thread prevent JVM shutdown
         thread.setDaemon(true);
         thread.start();
+
         thread.join();
-
-        final boolean[] finishedMovt2 = {false};
-        Thread thread2 = new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-                Runnable updater = new Runnable() {
-                    @Override
-                    public void run() {
-                        verifyThat("#GameName", hasText("ProgressRacer"));
-                        verifyThat("#horse1", Node::isPickOnBounds);
-                        Node alertNode = lookup("#horse1").query();
-                        Node alertNode2 = lookup("#horse2").query();
-                        if (alertNode.isVisible()) {
-                            clickOn("#horse1");
-                        }
-                        if (alertNode2.isVisible()) {
-                            clickOn("#horse2");
-                        }
-                        finishedMovt2[0] = true;
-                    }
-                };
-
-                while (!finishedMovt2[0]) {
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException ex) {
-                    }
-                    // UI update is run on the Application thread
-                    Platform.runLater(updater);
-                }
-            }
-        });
-//         don't let thread prevent JVM shutdown
-        thread2.setDaemon(true);
-        thread2.start();
-        thread2.join();
-
-        verifyThat("#update", Node::isVisible);
-
-        final boolean[] finishedMovt3 = {false};
-        Thread thread3 = new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-                Runnable updater = new Runnable() {
-                    @Override
-                    public void run() {
-                        verifyThat("#GameName", hasText("ProgressRacer"));
-                        verifyThat("#horse1", Node::isPickOnBounds);
-                        Node alertNode = lookup("#update").query();
-                        if (alertNode.isVisible()) {
-                            clickOn("#update");
-                        }
-                        finishedMovt3[0] = true;
-                    }
-                };
-
-                while (!finishedMovt3[0]) {
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException ex) {
-                    }
-                    // UI update is run on the Application thread
-                    Platform.runLater(updater);
-                }
-            }
-        });
-//         don't let thread prevent JVM shutdown
-        thread3.setDaemon(true);
-        thread3.start();
-        thread3.join();
-
-        verifyThat("#update", Node::isVisible);
-    }
-
-    @Test
-    public void MiniGame2WinnerCheck() throws IOException, InterruptedException {
-        final boolean[] finishedMovt = {false};
-        getToGameScreen();
-        GameManager.GameManager().overrideGame2 = true;
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Runnable updater = new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            SceneType.getGameBoardView().moveSpriteNumTiles(gameManager.playerList.get(0), 1);
-                            finishedMovt[0] = true;
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                };
-
-                while (!finishedMovt[0]) {
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException ex) {
-                    }
-                    // UI update is run on the Application thread
-                    Platform.runLater(updater);
-                }
-
-            }
-        });
-//         don't let thread prevent JVM shutdown
-        thread.setDaemon(true);
-        thread.start();
-        thread.join();
-
-        final boolean[] finishedMovt2 = {false};
-        Thread thread2 = new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-                Runnable updater = new Runnable() {
-                    @Override
-                    public void run() {
-                        verifyThat("#GameName", hasText("ProgressRacer"));
-                        verifyThat("#horse1", Node::isPickOnBounds);
-                        Node alertNode = lookup("#horse1").query();
-                        Node alertNode2 = lookup("#horse2").query();
-                        if (alertNode.isVisible()) {
-                            clickOn("#horse1");
-                        }
-                        if (alertNode2.isVisible()) {
-                            clickOn("#horse2");
-                        }
-                        finishedMovt2[0] = true;
-                    }
-                };
-
-                while (!finishedMovt2[0]) {
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException ex) {
-                    }
-                    // UI update is run on the Application thread
-                    Platform.runLater(updater);
-                }
-            }
-        });
-//         don't let thread prevent JVM shutdown
-        thread2.setDaemon(true);
-        thread2.start();
-        thread2.join();
-
-        verifyThat("#update", Node::isVisible);
-
-        Node alertNode = lookup("#update").query();
-        System.out.println(((Button) alertNode).getText());
-        while (((Button) alertNode).getText().contentEquals("Next Turn")) {
-            final boolean[] finishedMovt3 = {false};
-            Thread thread3 = new Thread(new Runnable() {
-
-                @Override
-                public void run() {
-                    Runnable updater = new Runnable() {
-                        @Override
-                        public void run() {
-                            verifyThat("#GameName", hasText("ProgressRacer"));
-                            verifyThat("#horse1", Node::isPickOnBounds);
-                            Node alertNode = lookup("#update").query();
-                            if (alertNode.isVisible() && ((Button) alertNode).getText().contentEquals("Next Turn")) {
-                                clickOn("#update");
-                            }
-                            finishedMovt3[0] = true;
-                        }
-                    };
-
-                    while (!finishedMovt3[0]) {
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException ex) {
-                        }
-                        // UI update is run on the Application thread
-                        Platform.runLater(updater);
-                    }
-                }
-            });
-            //         don't let thread prevent JVM shutdown
-            thread3.setDaemon(true);
-            thread3.start();
-            thread3.join();
-        }
-        assert ((Button) alertNode).getText().contentEquals("Finished");
-        Node winnerNode = lookup("#Winner").query();
-        assert ((Label) winnerNode).getText().startsWith("Congratulations to the winner: ");
-    }
-
-    @Test
-    public void MiniGame2ProgBarUpd() throws IOException, InterruptedException {
-        final boolean[] finishedMovt = {false};
-        getToGameScreen();
-        GameManager.GameManager().overrideGame2 = true;
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Runnable updater = new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            SceneType.getGameBoardView().moveSpriteNumTiles(gameManager.playerList.get(0), 1);
-                            finishedMovt[0] = true;
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                };
-
-                while (!finishedMovt[0]) {
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException ex) {
-                    }
-                    // UI update is run on the Application thread
-                    Platform.runLater(updater);
-                }
-
-            }
-        });
-//         don't let thread prevent JVM shutdown
-        thread.setDaemon(true);
-        thread.start();
-        thread.join();
-
-        final boolean[] finishedMovt2 = {false};
-        Thread thread2 = new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-                Runnable updater = new Runnable() {
-                    @Override
-                    public void run() {
-                        verifyThat("#GameName", hasText("ProgressRacer"));
-                        verifyThat("#horse1", Node::isPickOnBounds);
-                        Node alertNode = lookup("#horse1").query();
-                        Node alertNode2 = lookup("#horse2").query();
-                        if (alertNode.isVisible()) {
-                            clickOn("#horse1");
-                        }
-                        if (alertNode2.isVisible()) {
-                            clickOn("#horse2");
-                        }
-                        finishedMovt2[0] = true;
-                    }
-                };
-
-                while (!finishedMovt2[0]) {
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException ex) {
-                    }
-                    // UI update is run on the Application thread
-                    Platform.runLater(updater);
-                }
-            }
-        });
-//         don't let thread prevent JVM shutdown
-        thread2.setDaemon(true);
-        thread2.start();
-        thread2.join();
-
-        verifyThat("#update", Node::isVisible);
-
-        Node p1ProgrBar = lookup("#horse1P").query();
-        Double prog = ((ProgressBar) p1ProgrBar).getProgress();
-        final boolean[] finishedMovt3 = {false};
-        Thread thread3 = new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-                Runnable updater = new Runnable() {
-                    @Override
-                    public void run() {
-                        verifyThat("#GameName", hasText("ProgressRacer"));
-                        verifyThat("#horse1", Node::isPickOnBounds);
-                        Node alertNode = lookup("#update").query();
-                        if (alertNode.isVisible()) {
-                            clickOn("#update");
-                        }
-                        finishedMovt3[0] = true;
-                    }
-                };
-
-                while (!finishedMovt3[0]) {
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException ex) {
-                    }
-                    // UI update is run on the Application thread
-                    Platform.runLater(updater);
-                }
-            }
-        });
-//         don't let thread prevent JVM shutdown
-        thread3.setDaemon(true);
-        thread3.start();
-        thread3.join();
-
-        assert ((ProgressBar) p1ProgrBar).getProgress() != prog;
-    }
-
-    @Test
-    public void MiniGame2Play4() throws IOException, InterruptedException {
-        final boolean[] finishedMovt = {false};
-        getToGameScreen4Players();
-        GameManager.GameManager().overrideGame2 = true;
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Runnable updater = new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            SceneType.getGameBoardView().moveSpriteNumTiles(gameManager.playerList.get(0), 1);
-                            finishedMovt[0] = true;
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                };
-
-                while (!finishedMovt[0]) {
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException ex) {
-                    }
-                    // UI update is run on the Application thread
-                    Platform.runLater(updater);
-                }
-
-            }
-        });
-//         don't let thread prevent JVM shutdown
-        thread.setDaemon(true);
-        thread.start();
-        thread.join();
-
-        final boolean[] finishedMovt2 = {false};
-        Thread thread2 = new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-                Runnable updater = new Runnable() {
-                    @Override
-                    public void run() {
-                        verifyThat("#GameName", hasText("ProgressRacer"));
-                        verifyThat("#horse1", Node::isPickOnBounds);
-                        Node alertNode = lookup("#horse1").query();
-                        Node alertNode2 = lookup("#horse2").query();
-                        if (alertNode.isVisible()) {
-                            clickOn("#horse1");
-                        }
-                        if (alertNode2.isVisible()) {
-                            clickOn("#horse2");
-                        }
-                        finishedMovt2[0] = true;
-                    }
-                };
-
-                while (!finishedMovt2[0]) {
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException ex) {
-                    }
-                    // UI update is run on the Application thread
-                    Platform.runLater(updater);
-                }
-            }
-        });
-//         don't let thread prevent JVM shutdown
-        thread2.setDaemon(true);
-        thread2.start();
-        thread2.join();
-
-        final boolean[] finishedMovt4 = {false};
-        Thread thread4 = new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-                Runnable updater = new Runnable() {
-                    @Override
-                    public void run() {
-                        verifyThat("#GameName", hasText("ProgressRacer"));
-                        verifyThat("#horse1", Node::isPickOnBounds);
-                        Node alertNode = lookup("#horse3").query();
-                        Node alertNode2 = lookup("#horse4").query();
-                        if (alertNode.isVisible()) {
-                            clickOn("#horse3");
-                        }
-                        if (alertNode2.isVisible()) {
-                            clickOn("#horse4");
-                        }
-                        finishedMovt4[0] = true;
-                    }
-                };
-
-                while (!finishedMovt4[0]) {
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException ex) {
-                    }
-                    // UI update is run on the Application thread
-                    Platform.runLater(updater);
-                }
-            }
-        });
-//         don't let thread prevent JVM shutdown
-        thread4.setDaemon(true);
-        thread4.start();
-        thread4.join();
-
-        verifyThat("#update", Node::isVisible);
-
-        final boolean[] finishedMovt3 = {false};
-        Thread thread3 = new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-                Runnable updater = new Runnable() {
-                    @Override
-                    public void run() {
-                        verifyThat("#GameName", hasText("ProgressRacer"));
-                        verifyThat("#horse1", Node::isPickOnBounds);
-                        Node alertNode = lookup("#update").query();
-                        if (alertNode.isVisible()) {
-                            clickOn("#update");
-                        }
-                        finishedMovt3[0] = true;
-                    }
-                };
-
-                while (!finishedMovt3[0]) {
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException ex) {
-                    }
-                    // UI update is run on the Application thread
-                    Platform.runLater(updater);
-                }
-            }
-        });
-//         don't let thread prevent JVM shutdown
-        thread3.setDaemon(true);
-        thread3.start();
-        thread3.join();
-
-        verifyThat("#horse1P", Node::isVisible);
-        verifyThat("#horse2P", Node::isVisible);
-        verifyThat("#horse3P", Node::isVisible);
-        verifyThat("#horse4P", Node::isVisible);
+        verifyThat("#minigameWinner", NodeMatchers.isVisible());
+        verifyThat("#moneyWinner", NodeMatchers.isVisible());
+        verifyThat("#generousWinner", NodeMatchers.isVisible());
     }
 }
