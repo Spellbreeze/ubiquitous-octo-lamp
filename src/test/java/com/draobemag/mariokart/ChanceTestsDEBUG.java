@@ -286,4 +286,150 @@ public class ChanceTestsDEBUG extends ApplicationTest {
         clickOn("OK");
 
     }
+
+    @Test
+    public void ChanceTile1Effect() throws IOException, InterruptedException {
+        final boolean[] finishedMovt = {false};
+        final Player[] currPlayer = new Player[1];
+        getToGameScreen();
+        GameManager.GameManager().overrideChanceTile1 = true;
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Runnable updater = new Runnable() {
+                    @Override
+                    public void run() {
+                        currPlayer[0] = SceneType.getGameBoardView().testChanceButtonVisible();
+                        finishedMovt[0] = true;
+                    }
+                };
+
+                while (!finishedMovt[0]) {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ex) {
+                    }
+
+                    // UI update is run on the Application thread
+                    Platform.runLater(updater);
+                }
+
+            }
+        });
+        // don't let thread prevent JVM shutdown
+        thread.setDaemon(true);
+        thread.start();
+
+        thread.join();
+        int prev_money = currPlayer[0].getMoney();
+        clickOn("#moveTwelve");
+        //clickOn("OK");
+        // Get the Node of the Alert
+        Node alertNode = lookup(".dialog-pane").query();
+        assertNotNull(alertNode);
+        String alertText = ((DialogPane) alertNode).getContentText();
+        //assertEquals(alertText, ((DialogPane) alertNode).getContentText());
+        assert("You do a flip and speed up.".equals(alertText));
+        clickOn("OK");
+        int curr_money = currPlayer[0].getMoney();
+        assert(prev_money + 25 == curr_money);
+    }
+
+    @Test
+    public void ChanceTile2Effect() throws IOException, InterruptedException {
+        final boolean[] finishedMovt = {false};
+        final Player[] currPlayer = new Player[1];
+        getToGameScreen();
+        GameManager.GameManager().overrideChanceTile2 = true;
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Runnable updater = new Runnable() {
+                    @Override
+                    public void run() {
+                        currPlayer[0] = SceneType.getGameBoardView().testChanceButtonVisible();
+                        finishedMovt[0] = true;
+                    }
+                };
+
+                while (!finishedMovt[0]) {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ex) {
+                    }
+
+                    // UI update is run on the Application thread
+                    Platform.runLater(updater);
+                }
+
+            }
+        });
+        // don't let thread prevent JVM shutdown
+        thread.setDaemon(true);
+        thread.start();
+
+        thread.join();
+        int prev_money = currPlayer[0].getMoney();
+        clickOn("#moveTwelve");
+        //clickOn("OK");
+        // Get the Node of the Alert
+        Node alertNode = lookup(".dialog-pane").query();
+        assertNotNull(alertNode);
+        String alertText = ((DialogPane) alertNode).getContentText();
+        //assertEquals(alertText, ((DialogPane) alertNode).getContentText());
+        assert("You do a flip and speed up.".equals(alertText));
+        clickOn("OK");
+        int curr_money = currPlayer[0].getMoney();
+        assert(prev_money - 25 == curr_money);
+    }
+
+    @Test
+    public void ChanceTile5Effect() throws IOException, InterruptedException {
+        final boolean[] finishedMovt = {false};
+        final Player[] currPlayer = new Player[1];
+        getToGameScreen();
+        GameManager.GameManager().overrideChanceTile5 = true;
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Runnable updater = new Runnable() {
+                    @Override
+                    public void run() {
+                        currPlayer[0] = SceneType.getGameBoardView().testChanceButtonVisible();
+                        finishedMovt[0] = true;
+                    }
+                };
+
+                while (!finishedMovt[0]) {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ex) {
+                    }
+
+                    // UI update is run on the Application thread
+                    Platform.runLater(updater);
+                }
+
+            }
+        });
+        // don't let thread prevent JVM shutdown
+        thread.setDaemon(true);
+        thread.start();
+
+        thread.join();
+
+        int prev_position = currPlayer[0].getPosition();
+        clickOn("#moveTwelve");
+        //clickOn("OK");
+        // Get the Node of the Alert
+        Node alertNode = lookup(".dialog-pane").query();
+        assertNotNull(alertNode);
+        String alertText = ((DialogPane) alertNode).getContentText();
+        //assertEquals(alertText, ((DialogPane) alertNode).getContentText());
+        assert("You found a shortcut!".equals(alertText));
+        clickOn("OK");
+        int curr_position = currPlayer[0].getPosition();
+        assert(prev_position != curr_position);
+
+    }
 }
